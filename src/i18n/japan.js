@@ -75,7 +75,7 @@ export default {
         you_can_query_tx_status_on_chain: 'XWCブロックチェーンでこのトランザクションのステータスと結果を確認できます。',
         invalid_transfer_amount_format: '送金金額の形式が正しくありません。',
         not_enough_balance: '残高が足りません。',
-        invalid_to_address_format: '宛先アドレスの形式が間違っています '',
+        invalid_to_address_format: '宛先アドレスの形式が間違っています ',
     },
     checkTxPage: {
         title: '問い合わせ',
