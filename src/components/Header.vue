@@ -36,6 +36,7 @@
             <el-option label="English" value="english"></el-option>
             <el-option label="中文" value="chinese"></el-option>
             <el-option label="한국어" value="korea"></el-option>
+            <el-option label="日本語" value="japan"></el-option>
           </el-select>
         </div>
       </el-col>
