@@ -117,7 +117,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .xwc-customize-network-container1 {
   .label-font {
     color: #a99eb4;

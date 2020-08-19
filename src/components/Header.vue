@@ -105,7 +105,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .header-wrapper {
   height: 29pt;
   line-height: 29pt;

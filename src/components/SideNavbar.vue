@@ -41,7 +41,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .xwc-nav-side {
   background: white;
   .xwc-nav-item {

@@ -138,7 +138,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .xwc-create-wallet-container1 {
   .label-font {
     color: #a99eb4;

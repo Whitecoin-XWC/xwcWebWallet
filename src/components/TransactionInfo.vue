@@ -270,7 +270,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .xwc-tx-info-panel,
 .xwc-tx-details-panel {
   .label-font {

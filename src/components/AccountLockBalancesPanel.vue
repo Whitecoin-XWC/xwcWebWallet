@@ -746,7 +746,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .xwc-account-lock-balances-panel {
   .-table-header-row {
     .label-font {

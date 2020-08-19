@@ -219,7 +219,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .xwc-sign-raw-container1 {
   .label-font {
     color: #a99eb4;
