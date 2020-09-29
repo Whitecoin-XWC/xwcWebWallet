@@ -52,6 +52,8 @@ export default {
         please_set_password: 'ウォレットのパスワードを設定してください。',
         set_wallet_password: 'ウォレットのパスワードを設定します。',
         find_wallet_file_in_download_directory: 'ダウンロード後、ブラウザのダウンロードフォルダに移動して表示してください',
+        import_mnemonic: 'Import Mnemonic',
+        import_mnemonic_placeholder: 'Import Existed Mnemonic(optional)'
     },
     transferPage: {
         account_name: 'アカウント名',

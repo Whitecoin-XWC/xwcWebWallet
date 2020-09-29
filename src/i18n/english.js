@@ -51,6 +51,8 @@ export default {
         please_set_password: 'Please set wallet password',
         set_wallet_password: 'Set wallet password',
         find_wallet_file_in_download_directory: 'Please find your new wallet file in download directory after downloaded',
+        import_mnemonic: 'Import Mnemonic',
+        import_mnemonic_placeholder: 'Import Existed Mnemonic(optional)'
     },
     transferPage: {
         account_name: 'Account',

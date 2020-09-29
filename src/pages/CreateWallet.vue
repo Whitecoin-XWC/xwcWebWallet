@@ -23,6 +23,16 @@
             <p>{{$t('createWalletPage.passworld_length_notice')}}</p>
           </div>
         </el-form-item>
+        <el-form-item :label="$t('createWalletPage.import_mnemonic')">
+          <el-input
+            class="-input-password"
+            v-bind:placeholder="$t('createWalletPage.import_mnemonic_placeholder')"
+            type="textarea"
+            v-model="createWalletForm.importMnemonic"
+            autocomplete="off"
+            style="width: 220pt;"
+          ></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button
             type="primary"
@@ -49,7 +59,7 @@
             <p>{{$t('createWalletPage.password_is_to_protect_your_private_keys_please_save_it')}}</p>
             <p>{{$t('createWalletPage.wallet_file_is_to_get_your_assets_please_save_it')}}</p>
           </div>
-          <div>
+          <div v-if="false">
             <el-button
               type="primary"
               class="xwcwallet-form-btn"
@@ -65,6 +75,9 @@
 <script>
 import _ from "lodash";
 import appState from "../appState";
+import * as bip39 from 'bip39';
+import { hdkey } from 'ethereumjs-wallet';
+import utils from '../utils';
 let { PrivateKey, key, TransactionBuilder, TransactionHelper } = xwc_js;
 
 export default {
@@ -74,7 +87,8 @@ export default {
       created: false,
       createdAccount: null,
       createdAccountKeyString: null,
-      createWalletForm: {}
+      createWalletForm: {},
+      importMnemonic: null,
     };
   },
   created() {},
@@ -101,13 +115,43 @@ export default {
       });
     },
     createWallet() {
+      this.hasError = false;
       let password = (this.createWalletForm.password || "").trim();
       if (password.length < 8 || password.length > 30) {
         this.showError(this.$t("createWalletPage.invalid_password_length"));
+        this.hasError = true;
+        this.created = false;
         return;
       }
       this.created = true;
-      let account = account_utils.NewAccount();
+      let account;
+      if(this.createWalletForm.importMnemonic && this.createWalletForm.importMnemonic.trim()) {
+        // import from mnemonic
+        const importMnemonic = this.createWalletForm.importMnemonic.trim();
+        if(!bip39.validateMnemonic(importMnemonic)) {
+          console.log('invalid mnemonic');
+          this.showError('Invalid mnemonic');
+          this.hasError = true;
+          this.created = false;
+          return;
+        }
+        const seed = bip39.mnemonicToSeedSync(importMnemonic); // .toString('hex');
+        // console.log(`seed: ${seed.toString('hex')}`);
+        // seed to private key
+        const path = "m/44'/999'/0/0/0"; // m / 44' / 999' / account / 0 / addrIndex
+
+        const hdwallet = hdkey.fromMasterSeed(seed);
+        const wallet = hdwallet.derivePath(path).getWallet();
+        let privKeyStr = wallet.getPrivateKeyString();
+        if(privKeyStr.indexOf('0x') === 0) {
+          privKeyStr = privKeyStr.substring(2);
+        }
+        // console.log(`privKeyStr: ${privKeyStr}`);
+        account = account_utils.NewAccount();
+        account.setPrivateKey(privKeyStr);
+      } else {
+        account = account_utils.NewAccount();
+      }
       this.createdAccount = account;
       account.address = null;
       let address = account.getAddressString(appState.getAddressPrefix());

@@ -51,6 +51,8 @@ export default {
         please_set_password: '월렛 비밀번호를 설정해 주세요.',
         set_wallet_password: '월렛 비밀번호 설정 ',
         find_wallet_file_in_download_directory: '다운로드 후 다운로드 디렉토리에서 새 월렛 파일을 찾으세요',
+        import_mnemonic: 'Import Mnemonic',
+        import_mnemonic_placeholder: 'Import Existed Mnemonic(optional)'
     },
     transferPage: {
         account_name: '계정명 ',
