@@ -1,4 +1,5 @@
 import appState from '../../appState'
+import token from '../../rpc/token'
 import tokenRpc from '../../rpc/token'
 import utils from '../../utils'
 
@@ -279,19 +280,48 @@ const actions = {
             }
             return Promise.reject('connection failed')
         }
-        return tokenRpc
-            .listUserTokenBalances(
-                appState.getTokenExplorerApiUrl(),
-                address,
-                100,
-                0
-            )
+        // TODO: get token lists from explorer. get balance from node
+        // const tokenBalances = [
+        //     {
+        //         token_symbol: 'TP',
+        //         precision: 100000000,
+        //         amount: 3600000000,
+        //         contract_addr: 'a'
+        //     }
+        // ]
+        // commit('CHANGE_ADDRESS_TOKEN_BALANCES', { address, tokenBalances })
+        // return Promise.resolve(tokenBalances)
+        const explorerEndpoint = 'https://explorer.whitecoin.info'
+        const url = `${explorerEndpoint}/api/top_tokens`
+        return token.listUserTokenBalancesFromExplorer(url, address, 100, 0)
             .then(data => {
-                const res = data.data.listUserTokenBalances;
-                const tokenBalances = res.items;
+                console.log('top tokens', data)
+                const res = data.data
+                const tokenBalances = res.map(x => {
+                    const precision = parseInt(Math.pow(10, x.precision))
+                    return {
+                        token_symbol: x.tokenSymbol,
+                        precision: precision,
+                        amount: new BigNumber(x.balance || 0).multipliedBy(precision).toFixed(0),
+                        contract_addr: x.contractAddress
+                    }
+                })
                 commit('CHANGE_ADDRESS_TOKEN_BALANCES', { address, tokenBalances })
                 return tokenBalances
             })
+        // return tokenRpc
+        //     .listUserTokenBalances(
+        //         appState.getTokenExplorerApiUrl(),
+        //         address,
+        //         100,
+        //         0
+        //     )
+        //     .then(data => {
+        //         const res = data.data.listUserTokenBalances;
+        //         const tokenBalances = res.items;
+        //         commit('CHANGE_ADDRESS_TOKEN_BALANCES', { address, tokenBalances })
+        //         return tokenBalances
+        //     })
     },
     getAccountByName({ commit, state }, name, useCache) {
         if (!navigator.onLine || useCache) {

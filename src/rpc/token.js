@@ -1,4 +1,5 @@
 import rpc from './rpc'
+import axios from 'axios'
 
 export default {
     listUserTokenBalances(apiUrl, address, limit, offset) {
@@ -22,6 +23,15 @@ export default {
             address,
             limit,
             offset
+        })
+    },
+    listUserTokenBalancesFromExplorer(apiUrl, address, limit, offset) {
+        let url = apiUrl
+        if(address) {
+            url = url + '?address=' + address
+        }
+        return axios.get(url).then(data => {
+            return data.data
         })
     }
 }

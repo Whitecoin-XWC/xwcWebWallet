@@ -259,13 +259,13 @@ export default {
 
       // load user token balances
       if (appState.getCurrentNetwork() === "mainnet") {
-        // this.$store
-        //   .dispatch("account/getAddressTokenBalances", this.currentAddress)
-        //   .then(tokenBalances => {
-        //     console.log("listUserTokenBalances", tokenBalances);
-        //     this.currentAccountTokenBalances = tokenBalances;
-        //   })
-        //   .catch(this.showError);
+        this.$store
+          .dispatch("account/getAddressTokenBalances", this.currentAddress)
+          .then(tokenBalances => {
+            console.log("listUserTokenBalances", tokenBalances);
+            this.currentAccountTokenBalances = tokenBalances;
+          })
+          .catch(this.showError);
       }
     },
     onChangeCurrentAccount(account) {
