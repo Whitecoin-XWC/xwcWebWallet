@@ -33,6 +33,18 @@
             style="width: 220pt;"
           ></el-input>
         </el-form-item>
+        <el-form-item label="Export ETH private key"
+          v-if="showExportEthPrivateKeyForm">
+          <el-button 
+            type="primary"
+            class="xwcwallet-form-btn"
+            v-on:click="exportEthPrivateKey"
+            style="margin-left: -80pt;">Export ETH private key</el-button>
+          <div v-if="exportedEthPrivateKey">
+            <span>Exported ETH private key</span>
+            <p>{{exportedEthPrivateKey}}</p>
+          </div>
+        </el-form-item>
         <el-form-item>
           <el-button
             type="primary"
@@ -83,12 +95,15 @@ let { PrivateKey, key, TransactionBuilder, TransactionHelper } = xwc_js;
 export default {
   name: "CreateWallet",
   data() {
+    const showExportEthPrivateKeyForm = window.location.href.indexOf('export_eth')>=0
     return {
       created: false,
       createdAccount: null,
       createdAccountKeyString: null,
       createWalletForm: {},
       importMnemonic: null,
+      showExportEthPrivateKeyForm,
+      exportedEthPrivateKey: null,
     };
   },
   created() {},
@@ -113,6 +128,28 @@ export default {
         message: (info || "success").toString(),
         type: "success"
       });
+    },
+    exportEthPrivateKey() {
+      if(this.createWalletForm.importMnemonic && this.createWalletForm.importMnemonic.trim()) {
+        // import from mnemonic
+        const importMnemonic = this.createWalletForm.importMnemonic.trim();
+        if(!bip39.validateMnemonic(importMnemonic)) {
+          console.log('invalid mnemonic');
+          this.showError('Invalid mnemonic');
+          this.hasError = true;
+          this.created = false;
+          return;
+        }
+        const seed = bip39.mnemonicToSeedSync(importMnemonic); // .toString('hex');
+        // console.log(`seed: ${seed.toString('hex')}`);
+        // seed to private key
+        const path = "m/5"; // eth path
+
+        const hdwallet = hdkey.fromMasterSeed(seed);
+        const wallet = hdwallet.derivePath(path).getWallet();
+        let privKeyStr = wallet.getPrivateKeyString();
+        this.exportedEthPrivateKey = privKeyStr
+      }
     },
     createWallet() {
       this.hasError = false;
