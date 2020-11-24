@@ -139,7 +139,7 @@ li.el-select-dropdown__item.selected {
   }
 }
 .network-select {
-  width: 65pt;
+  width: 85pt;
 }
 .language-select {
   width: 65pt;

@@ -3,7 +3,7 @@ export default {
         my_wallet: '내 월렛',
         create_wallet: '웰렛 생성',
         transfer: '이체 ',
-        contract: '컨트렉트 ',
+        contract: 'Smart Contract',
         check_tx: '해시 검색 ',
         sign_raw: '서명 ',
     },

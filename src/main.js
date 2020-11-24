@@ -2,12 +2,12 @@ import Vue from 'vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
-window.Vue = Vue;
-Vue.use(ElementUI);
-
 import VueI18n from "vue-i18n";
 import messages from "./translations";
 import appState from "./appState";
+
+window.Vue = Vue;
+Vue.use(ElementUI);
 
 const query=location.search.substr(1)
 console.log(query);
@@ -16,7 +16,6 @@ query.split("&").forEach(item=>{
    let obj = item.split("=");
    lang[obj[0]] = obj[1]
 })
-console.log(lang)
 
 appState.changeCurrentLanguage(lang.lang)
 const i18n = new VueI18n({

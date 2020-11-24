@@ -79,9 +79,9 @@ if (process.env.NODE_ENV === 'production') {
     //     warnings: false
     //   }
     // }),
-    new UglifyJsPlugin(),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
+    // new UglifyJsPlugin(),
+    // new webpack.LoaderOptionsPlugin({
+    //   minimize: true
+    // })
   ])
 }

@@ -3,7 +3,7 @@ export default {
         my_wallet: 'My Wallet',
         create_wallet: 'Create Wallet',
         transfer: 'Transfer',
-        contract: 'Contract',
+        contract: 'Smart Contract',
         check_tx: 'Check Tx',
         sign_raw: 'Sign',
     },
