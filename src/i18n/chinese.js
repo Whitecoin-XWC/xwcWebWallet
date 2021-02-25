@@ -45,14 +45,16 @@ export default {
         next_step: '下一步',
         now_please_download_wallet_keystore_file: '现在，请下载钱包Keystore文件',
         download_wallet_keystore_file: '下载钱包Keystore文件',
-        password_is_to_protect_your_private_keys_please_save_it: '密码用于加密您的私钥，请务必妥善保存。',
-        wallet_file_is_to_get_your_assets_please_save_it: '钱包文件用于导入找回您的钱包及资产，请务必妥善保存',
+        password_is_to_protect_your_private_keys_please_save_it:
+            '密码用于加密您的私钥，请务必妥善保存。',
+        wallet_file_is_to_get_your_assets_please_save_it:
+            '钱包文件用于导入找回您的钱包及资产，请务必妥善保存',
         open_wallet_right_now: '立即打开钱包',
         please_set_password: '请设置钱包密码',
         set_wallet_password: '设置钱包密码',
         find_wallet_file_in_download_directory: '下载完成后请到浏览器的下载文件夹查看',
         import_mnemonic: '导入助记词',
-        import_mnemonic_placeholder: '导入现有助记词（可选）'
+        import_mnemonic_placeholder: '导入现有助记词（可选）',
     },
     transferPage: {
         account_name: '账户名称',
@@ -85,14 +87,14 @@ export default {
     },
     signRawPage: {
         title: '签名',
-        sign_now: "签名",
+        sign_now: '签名',
         please_input_content: '请输入要签名的内容',
     },
     customizeNetworkPage: {
         title: '自定义节点',
         add_network: '添加节点',
         please_input_chain_id: '请输入节点的Chain ID',
-        please_input_node_url: '请输入节点的RPC URL'
+        please_input_node_url: '请输入节点的RPC URL',
     },
     accountInfoPage: {
         my_address: '我的地址',
@@ -140,7 +142,7 @@ export default {
         account_name: '账户名称',
         please_input_account_name: '请输入账户名称',
         account_name_rule1: '1. 2-63位字符',
-        account_name_rule2: "2. 仅可输入小写字母或数字或 - 字符",
+        account_name_rule2: '2. 仅可输入小写字母或数字或 - 字符',
         account_name_rule3: '3. 需小写字母开头',
         fee: '手续费',
         register_now: '立即注册',
@@ -149,7 +151,8 @@ export default {
         return_with_space: '返 回',
         invalid_account_format: '账户名格式错误',
         account_registered_before: '此账户名已被注册',
-        register_account_error_with_reason: '注册失败，可能余额不足够支付注册手续费，或者账户名已被注册',
+        register_account_error_with_reason:
+            '注册失败，可能余额不足够支付注册手续费，或者账户名已被注册',
     },
     account_lock_balances: {
         pledge_information: '投票信息',
@@ -168,7 +171,7 @@ export default {
         pledge_income: '投票收益',
     },
     forms: {
-        invalid_input_format: "输入格式错误",
+        invalid_input_format: '输入格式错误',
     },
     'Key derivation failed - possibly wrong passphrase': '解锁失败，可能密码错误',
     'Unsupported key derivation scheme': '解锁失败，可能密码文件错误',
@@ -177,5 +180,6 @@ export default {
     'Connection failed': '连接失败',
     'Connected successfully': '连接成功',
     'websocket state error': '连接到节点失败，请尝试刷新或者切换节点',
-    'Logout': '退出登录'
+    Logout: '退出登录',
+    'Export PrivateKey': '导出私钥',
 };

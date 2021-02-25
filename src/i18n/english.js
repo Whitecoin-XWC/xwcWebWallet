@@ -39,20 +39,24 @@ export default {
     },
     createWalletPage: {
         title: 'Create Wallet',
-        please_save_wallet_file_line1: 'The wallet password is used to unlock the wallet, please save it properly',
+        please_save_wallet_file_line1:
+            'The wallet password is used to unlock the wallet, please save it properly',
         passworld_length_notice: 'Password length is 8 to 30 digits',
         invalid_password_length: 'Invalid password length',
         next_step: 'Next Step',
         now_please_download_wallet_keystore_file: 'Now download the wallet keystore file',
         download_wallet_keystore_file: 'Download Wallet Keystore File',
-        password_is_to_protect_your_private_keys_please_save_it: 'The password is used to encrypt your private key, so be sure to save it.',
-        wallet_file_is_to_get_your_assets_please_save_it: 'Wallet files are used to import and retrieve your wallet and assets, so be sure to save them properly',
+        password_is_to_protect_your_private_keys_please_save_it:
+            'The password is used to encrypt your private key, so be sure to save it.',
+        wallet_file_is_to_get_your_assets_please_save_it:
+            'Wallet files are used to import and retrieve your wallet and assets, so be sure to save them properly',
         open_wallet_right_now: 'Open the wallet now',
         please_set_password: 'Please set wallet password',
         set_wallet_password: 'Set wallet password',
-        find_wallet_file_in_download_directory: 'Please find your new wallet file in download directory after downloaded',
+        find_wallet_file_in_download_directory:
+            'Please find your new wallet file in download directory after downloaded',
         import_mnemonic: 'Import Mnemonic',
-        import_mnemonic_placeholder: 'Import Existed Mnemonic(optional)'
+        import_mnemonic_placeholder: 'Import Existed Mnemonic(optional)',
     },
     transferPage: {
         account_name: 'Account',
@@ -60,20 +64,24 @@ export default {
         transfer_amount_in_dialog: 'Amount',
         not_registered: 'Not Registered',
         send_to_address: 'To Address',
-        please_input_to_address_or_account_name: 'Please enter the address of the other party or the registered account name',
+        please_input_to_address_or_account_name:
+            'Please enter the address of the other party or the registered account name',
         please_select: 'Please Select',
         memo_info: 'Memo',
         fee: 'Fee',
         transfer_right_now: 'Transfer immediately',
         to_address: 'To Address',
         tx_making: 'Transaction is under construction',
-        tx_making_and_will_refresh_after_done: 'The transaction is in progress and the transaction will be automatically refreshed',
-        you_can_also_query_tx_by_tx_hash: 'You can also query transaction status and results by trading hashes.',
+        tx_making_and_will_refresh_after_done:
+            'The transaction is in progress and the transaction will be automatically refreshed',
+        you_can_also_query_tx_by_tx_hash:
+            'You can also query transaction status and results by trading hashes.',
         back: 'Return',
         tx_failed: 'Transaction Failed',
         tx_success: 'Transaction Successed',
         tx_on_chain_success: 'The transaction has been successfully sent',
-        you_can_query_tx_status_on_chain: 'You can check the status and results of this transaction on the XWC blockchain.',
+        you_can_query_tx_status_on_chain:
+            'You can check the status and results of this transaction on the XWC blockchain.',
         invalid_transfer_amount_format: 'Invalid transfer amount format',
         not_enough_balance: 'Balance not enough',
         invalid_to_address_format: 'Invalid destination address format',
@@ -85,14 +93,14 @@ export default {
     },
     signRawPage: {
         title: 'Sign',
-        sign_now: "Sign",
+        sign_now: 'Sign',
         please_input_content: 'Enter content to sign',
     },
     customizeNetworkPage: {
         title: 'Customize Network',
         add_network: 'Add Network',
         please_input_chain_id: 'Please input node Chain ID',
-        please_input_node_url: 'Please input node rpc url'
+        please_input_node_url: 'Please input node rpc url',
     },
     accountInfoPage: {
         my_address: 'My Address',
@@ -131,7 +139,8 @@ export default {
         invalid_gas_price_format: 'Incorrect gas price format',
         invalid_gas_limit_format: 'Incorrect gas limit format',
         too_large_gas_limit: 'Too large gas limit',
-        tx_not_on_chain_please_query_later: 'The transaction is not yet online. Please check this transaction ID later',
+        tx_not_on_chain_please_query_later:
+            'The transaction is not yet online. Please check this transaction ID later',
         contract_create_height: 'Create Block Height',
     },
     registerAccount: {
@@ -143,12 +152,14 @@ export default {
         account_name_rule3: '3. Start with a lowercase letter',
         fee: 'Fee',
         register_now: 'Register Now',
-        register_request_sent_please_refresh_later: 'Registration request has been sent, please wait 5 seconds to refresh the interface',
+        register_request_sent_please_refresh_later:
+            'Registration request has been sent, please wait 5 seconds to refresh the interface',
         your_account_name: 'Your account name',
         return_with_space: 'Back',
         invalid_account_format: 'Incorrect account name format',
         account_registered_before: 'This account name has been registered',
-        register_account_error_with_reason: 'Registration failed, the balance may not be enough to pay the registration fee, or the account name has been registered',
+        register_account_error_with_reason:
+            'Registration failed, the balance may not be enough to pay the registration fee, or the account name has been registered',
     },
     account_lock_balances: {
         pledge_information: 'Vote information',
@@ -167,14 +178,16 @@ export default {
         pledge_income: 'Vote income',
     },
     forms: {
-        invalid_input_format: "Invalid input format",
+        invalid_input_format: 'Invalid input format',
     },
-    'Key derivation failed - possibly wrong passphrase': 'Key derivation failed - possibly wrong passphrase',
+    'Key derivation failed - possibly wrong passphrase':
+        'Key derivation failed - possibly wrong passphrase',
     'Unsupported key derivation scheme': 'Unsupported key derivation scheme',
     'Unsupported parameters to PBKDF2': 'Unsupported parameters to PBKDF2',
     'Not supported wallet version': 'Not supported wallet version',
     'Connection failed': 'Connection failed',
     'Connected successfully': 'Connected successfully',
     'websocket state error': 'websocket state error',
-    'Logout': 'Logout'
+    Logout: 'Logout',
+    'Export PrivateKey': 'Export PrivateKey',
 };

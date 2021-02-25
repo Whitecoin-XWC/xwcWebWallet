@@ -39,20 +39,24 @@ export default {
     },
     createWalletPage: {
         title: '월렛 만들기 ',
-        please_save_wallet_file_line1: '월렛 비밀번호는 월렛 잠금 해제에 사용되므로, 적절히 보관해주세요',
+        please_save_wallet_file_line1:
+            '월렛 비밀번호는 월렛 잠금 해제에 사용되므로, 적절히 보관해주세요',
         passworld_length_notice: '비밀번호 길이는 8-30자리 여야합니다',
         invalid_password_length: '비밀번호 길이 오류 ',
         next_step: '다음 단계 ',
         now_please_download_wallet_keystore_file: '바로 월렛 Keystore파일을 다운로드 해주세요',
         download_wallet_keystore_file: '월렛 Keystore파일 다운로드',
-        password_is_to_protect_your_private_keys_please_save_it: '비밀번호는 귀하의 비밀키를 암호화 하는데 사용되므로 적절히 보관하시기 바랍니다. ',
-        wallet_file_is_to_get_your_assets_please_save_it: '월렛 파일은 월렛과 자산을 되찾는데 사용되므로 적절히 보관하시기 바랍니다',
+        password_is_to_protect_your_private_keys_please_save_it:
+            '비밀번호는 귀하의 비밀키를 암호화 하는데 사용되므로 적절히 보관하시기 바랍니다. ',
+        wallet_file_is_to_get_your_assets_please_save_it:
+            '월렛 파일은 월렛과 자산을 되찾는데 사용되므로 적절히 보관하시기 바랍니다',
         open_wallet_right_now: '바로 월렛 오픈하기',
         please_set_password: '월렛 비밀번호를 설정해 주세요.',
         set_wallet_password: '월렛 비밀번호 설정 ',
-        find_wallet_file_in_download_directory: '다운로드 후 다운로드 디렉토리에서 새 월렛 파일을 찾으세요',
+        find_wallet_file_in_download_directory:
+            '다운로드 후 다운로드 디렉토리에서 새 월렛 파일을 찾으세요',
         import_mnemonic: 'Import Mnemonic',
-        import_mnemonic_placeholder: 'Import Existed Mnemonic(optional)'
+        import_mnemonic_placeholder: 'Import Existed Mnemonic(optional)',
     },
     transferPage: {
         account_name: '계정명 ',
@@ -67,13 +71,16 @@ export default {
         transfer_right_now: '바로 이체 ',
         to_address: '보내는 주소 ',
         tx_making: ' 거래중 ',
-        tx_making_and_will_refresh_after_done: '거래가 진행 중이며, 거래 성공시 자동으로 새로 고침됩니다',
-        you_can_also_query_tx_by_tx_hash: '거래 해시를 통해 거래 상태 및 결과를 검색 할 수 있습니다',
+        tx_making_and_will_refresh_after_done:
+            '거래가 진행 중이며, 거래 성공시 자동으로 새로 고침됩니다',
+        you_can_also_query_tx_by_tx_hash:
+            '거래 해시를 통해 거래 상태 및 결과를 검색 할 수 있습니다',
         back: '돌아가기',
         tx_failed: '거래 실패',
         tx_success: '거래 성공 ',
         tx_on_chain_success: '거래가 성공적으로 전송되었습니다',
-        you_can_query_tx_status_on_chain: 'XWC 블록 체인에서이 거래의 상태와 결과를 확인할 수 있습니다',
+        you_can_query_tx_status_on_chain:
+            'XWC 블록 체인에서이 거래의 상태와 결과를 확인할 수 있습니다',
         invalid_transfer_amount_format: '잘못된 송금액 형식입니다',
         not_enough_balance: '잔액 부족 ',
         invalid_to_address_format: '잘못된 목적지 주소 형식입니다.',
@@ -85,14 +92,14 @@ export default {
     },
     signRawPage: {
         title: '서명',
-        sign_now: "서명해 주세요",
+        sign_now: '서명해 주세요',
         please_input_content: '서명 할 내용을 입력하세요.',
     },
     customizeNetworkPage: {
         title: '커스터마이즈 노드 ',
         add_network: '노드 추가 ',
         please_input_chain_id: '노드의 Chain ID를 입력해 주세요. ',
-        please_input_node_url: '노드의 RPC URL를 입력해 주세요'
+        please_input_node_url: '노드의 RPC URL를 입력해 주세요',
     },
     accountInfoPage: {
         my_address: '내 주소 ',
@@ -132,7 +139,8 @@ export default {
         invalid_gas_price_format: '잘못된 gas price 형식입니다. ',
         invalid_gas_limit_format: '잘못된 gas limit 형식입니다.  ',
         too_large_gas_limit: '',
-        tx_not_on_chain_please_query_later: '거래가 아직 체인에 없습니다. 나중에이 거래 ID를 확인하십시오',
+        tx_not_on_chain_please_query_later:
+            '거래가 아직 체인에 없습니다. 나중에이 거래 ID를 확인하십시오',
         contract_create_height: '블록 높이 생성 ',
     },
     registerAccount: {
@@ -140,7 +148,7 @@ export default {
         account_name: '계정명 ',
         please_input_account_name: '계정명을 입력해 주세요. ',
         account_name_rule1: '1. 2-63자리의 부호 ',
-        account_name_rule2: "2. 소문자나 숫자 또는 문자만 입력하세요",
+        account_name_rule2: '2. 소문자나 숫자 또는 문자만 입력하세요',
         account_name_rule3: '3. 소문자로 시작합니다.',
 
         fee: '수수료 ',
@@ -150,7 +158,8 @@ export default {
         return_with_space: '돌아가기 ',
         invalid_account_format: '계정명 형식 오류 ',
         account_registered_before: '사용중인 계정명입니다. ',
-        register_account_error_with_reason: '가입 실패. 잔액이 가입 수수료를 지불하기에 충분하지 않거나, 사용중인 계정명입니다',
+        register_account_error_with_reason:
+            '가입 실패. 잔액이 가입 수수료를 지불하기에 충분하지 않거나, 사용중인 계정명입니다',
     },
     account_lock_balances: {
         pledge_information: '투표 정보 ',
@@ -169,14 +178,17 @@ export default {
         pledge_income: '투표 수익 ',
     },
     forms: {
-        invalid_input_format: "잘못된 입력 형식",
+        invalid_input_format: '잘못된 입력 형식',
     },
-    'Key derivation failed - possibly wrong passphrase': '잠금 해제 실패, 비밀번호가 잘못되었을 가능성이 있습니다',
-    'Unsupported key derivation scheme': '잠금 해제 실패, 비밀번호 파일이 잘못되었을 가능성이 있습니다',
+    'Key derivation failed - possibly wrong passphrase':
+        '잠금 해제 실패, 비밀번호가 잘못되었을 가능성이 있습니다',
+    'Unsupported key derivation scheme':
+        '잠금 해제 실패, 비밀번호 파일이 잘못되었을 가능성이 있습니다',
     'Unsupported parameters to PBKDF2': 'PBKDF2 에 지원되지 않는 파라미터',
     'Not supported wallet version': '지원되지 않는 월렛 버전',
     'Connection failed': '연결 실패',
     'Connected successfully': '연결 성공',
     'websocket state error': '노드 연결 실패, 새로고침 하거나 노드를 변경해 주세요',
-    'Logout': '로그아웃'
+    Logout: '로그아웃',
+    'Export PrivateKey': '개인 키 내보내기',
 };

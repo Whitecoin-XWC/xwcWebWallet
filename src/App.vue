@@ -155,9 +155,6 @@ a {
   height: 30pt;
   color: white;
   font-size: 10pt;
-  background: linear-gradient(#3894e3, #2e8ae7);
-  border: 0;
-  border-radius: 0;
 }
 .el-switch__core {
   width: 20px !important;
