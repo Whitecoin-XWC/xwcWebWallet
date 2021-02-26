@@ -70,68 +70,14 @@
     </div>
 
     <div v-if="opened && isExport">
-      <div class="xwc-main-container xwc-export-wallet-container">
-        <h1 class="title">Show Private Key</h1>
-        <div class="label">
-          <label class="label-font">
-            {{
-              unlockPrivateKey.locked
-                ? 'Type your wallet password'
-                : 'This is your private key (click to copy)'
-            }}</label
-          >
-        </div>
-
-        <el-input
-          v-if="unlockPrivateKey.locked"
-          type="password"
-          placeholder="Type your password"
-          v-model="unlockPrivateKey.password"
-        />
-
-        <el-input
-          v-if="!unlockPrivateKey.locked"
-          type="textarea"
-          v-model="privateKey"
-          disabled
-          @click.native="onCopyPrivateKey"
-        />
-
-        <div class="danger">
-          <span>
-            Warning: Never disclose this key. Anyone with your private keys can steal any assets
-            held in your account.
-          </span>
-        </div>
-      </div>
-
-      <div class="xwc-panel" style="height: 60px; padding: 10px; margin-bottom: 50px;">
-        <el-button
-          v-if="!unlockPrivateKey.locked"
-          type="primary"
-          class="-ctrl-btn xwcwallet-form-btn"
-          @click="toggleExportView(false)"
-          size="small"
-          >Done</el-button
-        >
-        <el-button
-          v-if="unlockPrivateKey.locked"
-          type="primary"
-          class="-ctrl-btn xwcwallet-form-btn"
-          @click="toggleExportView(false)"
-          size="small"
-          >{{ $t('dialogs.cancel') }}</el-button
-        >
-        <el-button
-          v-if="unlockPrivateKey.locked"
-          type="primary"
-          class="-ctrl-btn xwcwallet-form-btn"
-          size="small"
-          :disabled="unlockPrivateKey.password == ''"
-          @click="handleUnlockPrivateKey"
-          >Confirm</el-button
-        >
-      </div>
+      <ExportWallet
+        :privateKey="privateKey"
+        :locked="unlockPrivateKey.locked"
+        :password="unlockPrivateKey.password"
+        :handleUnlockPrivateKey="handleUnlockPrivateKey"
+        :toggleExportView="toggleExportView"
+        :onCopyPrivateKey="onCopyPrivateKey"
+      />
     </div>
 
     <!-- TODO: use AccountInfo component -->
@@ -195,13 +141,15 @@
           >{{ $t('Logout') }}</el-button
         >
 
-        <el-button
-          type="primary"
-          class="-ctrl-btn xwcwallet-form-btn"
-          @click="toggleExportView(true)"
-          size="small"
-          >{{ $t('Export PrivateKey') }}</el-button
-        >
+        <el-dropdown split-button type="primary" @command="handlePrivate">
+          Import/Export PrivateKey
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="import">{{ $t('Import PrivateKey') }}</el-dropdown-item>
+            <el-dropdown-item command="export">
+              {{ $t('Export PrivateKey') }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </div>
   </div>
@@ -211,6 +159,7 @@
 import _ from 'lodash';
 import { mapState } from 'vuex';
 import appState from '../appState';
+import ExportWallet from '../components/ExportWallet.vue';
 import KeystoreInput from '../components/KeystoreInput.vue';
 import AccountBalancesSidebar from '../components/AccountBalancesSidebar.vue';
 import AccountLockBalancesPanel from '../components/AccountLockBalancesPanel.vue';
@@ -222,6 +171,7 @@ let { PrivateKey, key, TransactionBuilder, TransactionHelper, WalletAccountUtil 
 export default {
   name: 'XwcMyWallet',
   components: {
+    ExportWallet,
     KeystoreInput,
     AccountBalancesSidebar,
     AccountLockBalancesPanel,
@@ -280,6 +230,12 @@ export default {
     appState.offChangeCurrentAccount(this.onChangeCurrentAccount);
   },
   methods: {
+    handlePrivate(e) {
+      if (e === 'export') {
+        this.toggleExportView(true);
+      } else if (e === 'import') {
+      }
+    },
     showError(e) {
       e = utils.getShowErrorMessage(e, this.$t.bind(this));
       this.$message({
@@ -383,10 +339,10 @@ export default {
       this.unlockWalletForm.keystoreFile = filename;
       this.unlockWalletForm.isWalletJson = isWalletJson;
     },
-    handleUnlockPrivateKey() {
+    handleUnlockPrivateKey(pwd) {
       const walletPassword = localStorage.getItem('keyPassword');
-      console.log(this.unlockPrivateKey.password, walletPassword);
-      if (this.unlockPrivateKey.password === walletPassword) {
+      console.log(pwd === walletPassword);
+      if (pwd === walletPassword) {
         this.unlockPrivateKey.locked = false;
       }
     },
@@ -642,8 +598,6 @@ export default {
     color: white;
     font-size: 10pt;
     background: linear-gradient(#3894e3, #2e8ae7);
-    border: 0;
-    border-radius: 0;
     margin-left: -80pt;
   }
 }

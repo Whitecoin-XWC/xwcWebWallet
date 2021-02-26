@@ -4,33 +4,37 @@
       <div class="xwc-panel xwc-account-info-panel">
         <el-row class="-address-row">
           <el-col :span="4">
-            <div class="grid-content label-font" v-if="myself">{{$t('accountInfoPage.my_address')}}</div>
-            <div
-              class="grid-content label-font"
-              v-if="!myself"
-            >{{$t('accountInfoPage.account_address')}}</div>
+            <div class="grid-content label-font" v-if="myself">
+              {{ $t('accountInfoPage.my_address') }}
+            </div>
+            <div class="grid-content label-font" v-if="!myself">
+              {{ $t('accountInfoPage.account_address') }}
+            </div>
           </el-col>
           <el-col :span="8">
             <div class="grid-content label-font">
-              <div>{{accountAddress}}</div>
+              <div>{{ accountAddress }}</div>
             </div>
           </el-col>
           <el-col :span="4">
-            <div class="grid-content label-font">{{$t('accountInfoPage.account_name')}}</div>
+            <div class="grid-content label-font">{{ $t('accountInfoPage.account_name') }}</div>
           </el-col>
           <el-col :span="8">
             <div class="grid-content label-font" style="text-align: left;">
-              <div v-if="infoAccountInfo.name">{{infoAccountInfo.name}}</div>
+              <div v-if="infoAccountInfo.name">{{ infoAccountInfo.name }}</div>
               <div
                 v-if="!infoAccountInfo.name"
                 class="-not-registered-account-btn"
                 v-on:click="toRegisterAccount()"
-              >{{$t('accountInfoPage.not_registered')}}</div>
+              >
+                {{ $t('accountInfoPage.not_registered') }}
+              </div>
               <span
                 style="color: #A64EB5; float: right; margin-top: -18px; margin-right: 30px;"
                 v-if="myself"
-                v-on:click="opened=false"
-              >{{$t('keystoreInput.change_wallet')}}</span>
+                v-on:click="opened = false"
+                >{{ $t('keystoreInput.change_wallet') }}</span
+              >
             </div>
           </el-col>
         </el-row>
@@ -44,7 +48,7 @@
       </div>
       <AccountLockBalancesPanel
         v-if="infoAccountInfo && infoAccountInfo.name"
-        :currentAccount="myself?infoAccount:null"
+        :currentAccount="myself ? infoAccount : null"
         :accountName="infoAccountInfo.name"
         :myself="myself"
         @balance-update="toUpdateAccountBalances"
@@ -54,27 +58,27 @@
 </template>
 
 <script>
-import _ from "lodash";
-import appState from "../appState";
-import utils from "../utils";
-import KeystoreInput from "../components/KeystoreInput.vue";
-import AccountBalancesSidebar from "../components/AccountBalancesSidebar.vue";
-import AccountLockBalancesPanel from "../components/AccountLockBalancesPanel.vue";
-import tokenRpc from "../rpc/token";
+import _ from 'lodash';
+import appState from '../appState';
+import utils from '../utils';
+import KeystoreInput from '../components/KeystoreInput.vue';
+import AccountBalancesSidebar from '../components/AccountBalancesSidebar.vue';
+import AccountLockBalancesPanel from '../components/AccountLockBalancesPanel.vue';
+import tokenRpc from '../rpc/token';
 
 let { PrivateKey, key, TransactionBuilder, TransactionHelper } = xwc_js;
 
 export default {
-  name: "AccountInfo",
-  props: ["accountAddress", "myself"],
+  name: 'AccountInfo',
+  props: ['accountAddress', 'myself'],
   components: {
     KeystoreInput,
     AccountBalancesSidebar,
-    AccountLockBalancesPanel
+    AccountLockBalancesPanel,
   },
   data() {
     return {
-      infoAccount: "",
+      infoAccount: '',
       hideZeroAssets: false,
       showAccountBalancesLimit: 5,
 
@@ -86,15 +90,15 @@ export default {
         keystoreFile: null,
         keystoreFileInput: null,
         keystoreFileJson: null,
-        password: ""
-      }
+        password: '',
+      },
     };
   },
   created() {},
   watch: {
     accountAddress(newVal, oldVal) {
       this.loadInfoAccountInfo();
-    }
+    },
   },
   mounted() {
     this.loadInfoAccountInfo();
@@ -106,27 +110,27 @@ export default {
       this.$message({
         showClose: true,
         message: e,
-        type: "error"
+        type: 'error',
       });
     },
     showInfo(info) {
       this.$message({
         showClose: true,
-        message: (info || "info").toString()
+        message: (info || 'info').toString(),
       });
     },
     showSuccess(info) {
       this.$message({
         showClose: true,
-        message: (info || "success").toString(),
-        type: "success"
+        message: (info || 'success').toString(),
+        type: 'success',
       });
     },
     showWarning(info) {
       this.$message({
         showClose: true,
-        message: (info || "warning").toString(),
-        type: "warning"
+        message: (info || 'warning').toString(),
+        type: 'warning',
       });
     },
     showAllBalances() {
@@ -141,8 +145,8 @@ export default {
       }
 
       this.$store
-        .dispatch("account/getAccountInfo", this.accountAddress)
-        .then(accountInfo => {
+        .dispatch('account/getAccountInfo', this.accountAddress)
+        .then((accountInfo) => {
           if (accountInfo) {
             this.infoAccountInfo = accountInfo;
           } else {
@@ -152,14 +156,14 @@ export default {
         .catch(this.showError);
 
       this.$store
-        .dispatch("account/getAddressBalances", this.accountAddress)
-        .then(accountBalances => {
-          console.log("accountBalances from vuex is", accountBalances);
+        .dispatch('account/getAddressBalances', this.accountAddress)
+        .then((accountBalances) => {
+          console.log('accountBalances from vuex is', accountBalances);
           this.infoAccountBalances = accountBalances;
         })
         .catch(this.showError);
 
-      if (appState.getCurrentNetwork() === "mainnet") {
+      if (appState.getCurrentNetwork() === 'mainnet') {
         // this.$store
         //   .dispatch("account/getAddressTokenBalances", this.accountAddress)
         //   .then(tokenBalances => {
@@ -172,7 +176,7 @@ export default {
     filterBalances(balances, skipZero = false, limit = null) {
       let filtered = balances;
       if (skipZero) {
-        filtered = balances.filter(item => item.amount > 0);
+        filtered = balances.filter((item) => item.amount > 0);
       }
       if (limit) {
         filtered = filtered.slice(0, limit);
@@ -183,13 +187,13 @@ export default {
       if (!this.myself) {
         return;
       }
-      appState.changeCurrentTab("register_account");
+      appState.changeCurrentTab('register_account');
     },
     onSelectKeystoreFile(fileJson, filename) {
       this.unlockWalletForm.keystoreFileJson = fileJson;
       this.unlockWalletForm.keystoreFile = filename;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -254,8 +258,6 @@ export default {
     color: white;
     font-size: 10pt;
     background: linear-gradient(#3894e3, #2e8ae7);
-    border: 0;
-    border-radius: 0;
     margin-left: -80pt;
   }
   .xwc-account-balances-side-bar {

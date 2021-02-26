@@ -8,11 +8,10 @@
         prop="currentAddress"
         style="text-align: left;"
       >
-        <span class="label-font -address-show-label">{{currentAddress}}</span>
-        <span
-          class="-change-wallet-btn"
-          v-on:click="walletUnlocked=false"
-        >{{$t('keystoreInput.change_wallet')}}</span>
+        <span class="label-font -address-show-label">{{ currentAddress }}</span>
+        <span class="-change-wallet-btn" v-on:click="walletUnlocked = false">{{
+          $t('keystoreInput.change_wallet')
+        }}</span>
       </el-form-item>
       <div class="clearfix"></div>
     </div>
@@ -33,7 +32,8 @@
           type="primary"
           class="-unlock-keystore-file-btn"
           v-on:click="toUnlockKeystoreFile"
-        >{{$t('keystoreInput.unlock_now')}}</el-button>
+          >{{ $t('keystoreInput.unlock_now') }}</el-button
+        >
       </el-form-item>
       <el-form-item
         v-if="walletJsonAccounts && unlockWalletForm.walletAccountsToSelect"
@@ -49,42 +49,41 @@
         </el-select>
       </el-form-item>
       <el-form-item
-        v-if="walletJsonAccounts && unlockWalletForm.walletAccountsToSelect && unlockWalletForm.selectedWalletAccount"
+        v-if="
+          walletJsonAccounts &&
+            unlockWalletForm.walletAccountsToSelect &&
+            unlockWalletForm.selectedWalletAccount
+        "
       >
         <el-button
           type="primary"
           class="-unlock-keystore-file-btn"
           v-on:click="toOpenWalletAfterSelectWalletAccount"
-        >Open</el-button>
+          >Open</el-button
+        >
       </el-form-item>
     </div>
   </div>
 </template>
 
 <script>
-import appState from "../appState";
-import utils from "../utils";
-import FileInput from "./FileInput.vue";
-import KeystoreInput from "./KeystoreInput.vue";
-let {
-  PrivateKey,
-  key,
-  TransactionBuilder,
-  TransactionHelper,
-  WalletAccountUtil
-} = xwc_js;
+import appState from '../appState';
+import utils from '../utils';
+import FileInput from './FileInput.vue';
+import KeystoreInput from './KeystoreInput.vue';
+let { PrivateKey, key, TransactionBuilder, TransactionHelper, WalletAccountUtil } = xwc_js;
 
 export default {
-  name: "AddressOrSelectWalletInput",
+  name: 'AddressOrSelectWalletInput',
   components: { FileInput, KeystoreInput },
   data() {
     return {
       walletUnlocked: false,
       filename: null,
       unlockWalletForm: {
-        walletAccountsToSelect: false
+        walletAccountsToSelect: false,
       },
-      walletJsonAccounts: []
+      walletJsonAccounts: [],
     };
   },
   created() {
@@ -100,15 +99,12 @@ export default {
     },
     toUnlockKeystoreFile() {
       if (!this.unlockWalletForm.keystoreFileJson) {
-        this.showError(this.$t("keystoreInput.please_open_locked_file"));
+        this.showError(this.$t('keystoreInput.please_open_locked_file'));
         return;
       }
       this.unlockWalletForm.password = this.unlockWalletForm.password.trim();
-      if (
-        this.unlockWalletForm.password.length < 8 ||
-        this.unlockWalletForm.password.length > 30
-      ) {
-        this.showError(this.$t("keystoreInput.wallet_password_length_invalid"));
+      if (this.unlockWalletForm.password.length < 8 || this.unlockWalletForm.password.length > 30) {
+        this.showError(this.$t('keystoreInput.wallet_password_length_invalid'));
         return;
       }
       let fileJson = this.unlockWalletForm.keystoreFileJson;
@@ -152,26 +148,26 @@ export default {
         appState.changeCurrentAccount(account);
         // save to storage
         try {
-          if (typeof localStorage !== "undefined") {
-            localStorage.setItem("keyInfo", JSON.stringify(fileJson));
-            localStorage.setItem("keyPassword", password);
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('keyInfo', JSON.stringify(fileJson));
+            localStorage.setItem('keyPassword', password);
           }
         } catch (e) {
           console.log(e);
         }
         try {
-          if (typeof chrome !== "undefined" && chrome.storage) {
+          if (typeof chrome !== 'undefined' && chrome.storage) {
             chrome.storage.local.set({ keyInfo: fileJson }, function() {
-              console.log("Value is set to " + valueJson);
+              console.log('Value is set to ' + valueJson);
             });
-            messageToBackground("newWallet", "false");
+            messageToBackground('newWallet', 'false');
           }
         } catch (e) {
           console.log(e);
         }
-        this.showSuccess(this.$t("dialogs.unlock_successfully"));
+        this.showSuccess(this.$t('dialogs.unlock_successfully'));
         this.walletUnlocked = true;
-        this.$emit("change-current-account", account);
+        this.$emit('change-current-account', account);
       } catch (e) {
         this.showError(e);
       }
@@ -179,35 +175,35 @@ export default {
     toOpenWalletAfterSelectWalletAccount() {
       const account = this.unlockWalletForm.selectedWalletAccount;
       if (!account) {
-        this.showError("please select account");
+        this.showError('please select account');
         return;
       }
       try {
-        const password = this.unlockWalletForm.password || "";
+        const password = this.unlockWalletForm.password || '';
         const keyInfo = account.toKey(password);
         appState.changeCurrentAccount(account);
         // save to storage
         try {
-          if (typeof localStorage !== "undefined") {
-            localStorage.setItem("keyInfo", JSON.stringify(keyInfo));
-            localStorage.setItem("keyPassword", password);
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('keyInfo', JSON.stringify(keyInfo));
+            localStorage.setItem('keyPassword', password);
           }
         } catch (e) {
           console.log(e);
         }
         try {
-          if (typeof chrome !== "undefined" && chrome.storage) {
+          if (typeof chrome !== 'undefined' && chrome.storage) {
             chrome.storage.local.set({ keyInfo: keyInfo }, function() {
-              console.log("Value is set to " + keyInfo);
+              console.log('Value is set to ' + keyInfo);
             });
-            messageToBackground("newWallet", "false");
+            messageToBackground('newWallet', 'false');
           }
         } catch (e) {
           console.log(e);
         }
-        this.showSuccess(this.$t("dialogs.unlock_successfully"));
+        this.showSuccess(this.$t('dialogs.unlock_successfully'));
         this.walletUnlocked = true;
-        this.$emit("change-current-account", account);
+        this.$emit('change-current-account', account);
         this.opened = true;
       } catch (e) {
         this.showError(e);
@@ -216,14 +212,14 @@ export default {
     showInfo(info) {
       this.$message({
         showClose: true,
-        message: (info || "info").toString()
+        message: (info || 'info').toString(),
       });
     },
     showSuccess(info) {
       this.$message({
         showClose: true,
-        message: (info || "success").toString(),
-        type: "success"
+        message: (info || 'success').toString(),
+        type: 'success',
       });
     },
     showError(e) {
@@ -231,11 +227,11 @@ export default {
       this.$message({
         showClose: true,
         message: e,
-        type: "error"
+        type: 'error',
       });
-    }
+    },
   },
-  props: ["currentAddress"]
+  props: ['currentAddress'],
 };
 </script>
 
@@ -247,8 +243,6 @@ export default {
     color: white;
     font-size: 10pt;
     background: linear-gradient(#3894e3, #2e8ae7);
-    border: 0;
-    border-radius: 0;
     margin-left: -80pt;
   }
   .-address-show-label {

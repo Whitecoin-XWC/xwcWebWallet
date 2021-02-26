@@ -4,44 +4,46 @@
       <div class="xwc-panel xwc-contract-info-panel">
         <el-row class="-address-row">
           <el-col :span="4">
-            <div class="grid-content label-font">{{$t('contractPage.contract_address')}}</div>
+            <div class="grid-content label-font">{{ $t('contractPage.contract_address') }}</div>
           </el-col>
           <el-col :span="8">
             <div class="grid-content label-font">
-              <div>{{contractAddress}}</div>
+              <div>{{ contractAddress }}</div>
             </div>
           </el-col>
           <el-col :span="4">
-            <div class="grid-content label-font">{{$t('contractPage.create_tx_id')}}</div>
+            <div class="grid-content label-font">{{ $t('contractPage.create_tx_id') }}</div>
           </el-col>
           <el-col :span="8">
             <div class="grid-content label-font" style="text-align: left;">
-              <div>{{contractInfo.registered_trx}}</div>
+              <div>{{ contractInfo.registered_trx }}</div>
               <!-- TODO: 交易数量 -->
             </div>
           </el-col>
         </el-row>
         <el-row class="-creator-row">
           <el-col :span="4">
-            <div class="grid-content label-font">{{$t('contractPage.creator')}}</div>
+            <div class="grid-content label-font">{{ $t('contractPage.creator') }}</div>
           </el-col>
           <el-col :span="8">
             <div class="grid-content label-font">
-              <div>{{contractInfo.owner_address}}</div>
+              <div>{{ contractInfo.owner_address }}</div>
             </div>
           </el-col>
           <el-col :span="4">
-            <div class="grid-content label-font">{{$t('contractPage.contract_create_height')}}</div>
+            <div class="grid-content label-font">
+              {{ $t('contractPage.contract_create_height') }}
+            </div>
           </el-col>
           <el-col :span="8">
             <div class="grid-content label-font" style="text-align: left;">
-              <div>{{contractInfo.registered_block}}</div>
+              <div>{{ contractInfo.registered_block }}</div>
             </div>
           </el-col>
         </el-row>
         <el-row class="-balance-label-row">
           <el-col :span="4">
-            <div class="grid-content label-font">{{$t('contractPage.balance')}}</div>
+            <div class="grid-content label-font">{{ $t('contractPage.balance') }}</div>
           </el-col>
           <el-col :span="8">
             <div class="grid-content label-font">&nbsp;</div>
@@ -53,22 +55,30 @@
             <div class="grid-content">
               <div style="text-align: right;">
                 <el-switch v-model="hideZeroAssets"></el-switch>
-                <span class="label-font">{{$t('accountBalances.hide_zero_balances')}}</span>
+                <span class="label-font">{{ $t('accountBalances.hide_zero_balances') }}</span>
               </div>
             </div>
           </el-col>
         </el-row>
         <div class="-account-balances-panel">
           <div
-            v-for="balance in filterBalances(contractBalances, hideZeroAssets, showAccountBalancesLimit)"
+            v-for="balance in filterBalances(
+              contractBalances,
+              hideZeroAssets,
+              showAccountBalancesLimit
+            )"
             class="-account-balance"
             :key="balance.assetSymbol"
           >
-            <div class="-asset-symbol-label">{{balance.assetSymbol}}</div>
-            <div class="-asset-amount-label">{{balance.amountNu.toFixed(balance.precision)}}</div>
+            <div class="-asset-symbol-label">{{ balance.assetSymbol }}</div>
+            <div class="-asset-amount-label">{{ balance.amountNu.toFixed(balance.precision) }}</div>
           </div>
           <div
-            v-if="showAccountBalancesLimit && filterBalances(contractBalances, hideZeroAssets, null).length>showAccountBalancesLimit"
+            v-if="
+              showAccountBalancesLimit &&
+                filterBalances(contractBalances, hideZeroAssets, null).length >
+                  showAccountBalancesLimit
+            "
           >
             <i class="el-icon-arrow-down" v-on:click="showAllBalances" style="cursor: pointer;"></i>
           </div>
@@ -77,15 +87,15 @@
       </div>
       <div
         class="xwc-panel xwc-contract-apis-panel"
-        v-if="contractInfo.type_of_contract==='normal_contract'"
+        v-if="contractInfo.type_of_contract === 'normal_contract'"
       >
         <div class="-contract-api-title">API</div>
         <div class="-contract-apis-panel">
           <div v-for="api in contractInfo.code_printable.abi" class="-api-item" :key="api">
-            <div class="-api-label">{{api}}</div>
+            <div class="-api-label">{{ api }}</div>
           </div>
           <div v-for="api in contractInfo.code_printable.offline_abi" class="-api-item" :key="api">
-            <div class="-api-label">{{api}}</div>
+            <div class="-api-label">{{ api }}</div>
           </div>
           <div class="clearfix"></div>
         </div>
@@ -95,28 +105,28 @@
 </template>
 
 <script>
-import _ from "lodash";
-import appState from "../appState";
-import utils from "../utils";
+import _ from 'lodash';
+import appState from '../appState';
+import utils from '../utils';
 let { PrivateKey, key, TransactionBuilder, TransactionHelper } = xwc_js;
 
 export default {
-  name: "ContractInfoPanel",
-  props: ["contractAddress"],
+  name: 'ContractInfoPanel',
+  props: ['contractAddress'],
   components: {},
   data() {
     return {
-      infoAccount: "",
+      infoAccount: '',
       hideZeroAssets: false,
       showAccountBalancesLimit: 5,
 
       contractBalances: [
         {
-          assetId: "1.3.0",
-          assetSymbol: "XWC",
+          assetId: '1.3.0',
+          assetSymbol: 'XWC',
           amountNu: new BigNumber(0),
-          amount: 0
-        }
+          amount: 0,
+        },
       ],
       contractInfo: {},
 
@@ -124,15 +134,15 @@ export default {
         keystoreFile: null,
         keystoreFileInput: null,
         keystoreFileJson: null,
-        password: ""
-      }
+        password: '',
+      },
     };
   },
   created() {},
   watch: {
     contractAddress(newVal, oldVal) {
       this.loadInfoAccountInfo();
-    }
+    },
   },
   mounted() {
     this.loadInfoAccountInfo();
@@ -144,27 +154,27 @@ export default {
       this.$message({
         showClose: true,
         message: e,
-        type: "error"
+        type: 'error',
       });
     },
     showInfo(info) {
       this.$message({
         showClose: true,
-        message: (info || "info").toString()
+        message: (info || 'info').toString(),
       });
     },
     showSuccess(info) {
       this.$message({
         showClose: true,
-        message: (info || "success").toString(),
-        type: "success"
+        message: (info || 'success').toString(),
+        type: 'success',
       });
     },
     showWarning(info) {
       this.$message({
         showClose: true,
-        message: (info || "warning").toString(),
-        type: "warning"
+        message: (info || 'warning').toString(),
+        type: 'warning',
       });
     },
     showAllBalances() {
@@ -177,23 +187,19 @@ export default {
       const nodeClient = appState.getNodeClient();
       appState
         .withSystemAssets()
-        .then(assets => {
-          return nodeClient.getContractBalances(
-            this.contractAddress
-          ).then(balances => {
+        .then((assets) => {
+          return nodeClient.getContractBalances(this.contractAddress).then((balances) => {
             this.contractBalances.length = 0;
             for (let asset of assets) {
-              let balance = balances.filter(b => b.asset_id === asset.id)[0];
+              let balance = balances.filter((b) => b.asset_id === asset.id)[0];
               let item = {
                 assetId: asset.id,
                 assetSymbol: asset.symbol,
                 amount: balance ? balance.amount : 0,
                 precision: asset.precision,
                 amountNu: balance
-                  ? new BigNumber(balance.amount).div(
-                      Math.pow(10, asset.precision)
-                    )
-                  : new BigNumber(0)
+                  ? new BigNumber(balance.amount).div(Math.pow(10, asset.precision))
+                  : new BigNumber(0),
               };
               this.contractBalances.push(item);
             }
@@ -201,9 +207,7 @@ export default {
           });
         })
         .then(() => {
-          return nodeClient.getSimpleContractInfo(
-            this.contractAddress
-          ).then(accountInfo => {
+          return nodeClient.getSimpleContractInfo(this.contractAddress).then((accountInfo) => {
             if (accountInfo) {
               this.contractInfo = accountInfo;
             } else {
@@ -216,14 +220,14 @@ export default {
     filterBalances(balances, skipZero = false, limit = null) {
       let filtered = balances;
       if (skipZero) {
-        filtered = balances.filter(item => item.amount > 0);
+        filtered = balances.filter((item) => item.amount > 0);
       }
       if (limit) {
         filtered = filtered.slice(0, limit);
       }
       return filtered;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -299,8 +303,6 @@ export default {
     color: white;
     font-size: 10pt;
     background: linear-gradient(#3894e3, #2e8ae7);
-    border: 0;
-    border-radius: 0;
     margin-left: -80pt;
   }
 }
