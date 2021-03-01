@@ -71,7 +71,7 @@
 
     <div v-if="opened && isExport">
       <ExportWallet
-        :privateKey="privateKey"
+        :privateKey="getPrivateKeyFromSeed(privateKey)"
         :locked="unlockPrivateKey.locked"
         :password="unlockPrivateKey.password"
         :handleUnlockPrivateKey="handleUnlockPrivateKey"
@@ -80,9 +80,13 @@
       />
     </div>
 
+    <div v-if="isImport">
+      <ImportWallet :toggleImportView="toggleImportView" :onImportWallet="onImportWallet" />
+    </div>
+
     <!-- TODO: use AccountInfo component -->
     <!-- when account opened -->
-    <div v-if="opened && !isExport">
+    <div v-if="opened && !isExport && !isImport">
       <div class="xwc-main-container xwc-my-opened-wallet-container1">
         <el-row class="-address-row">
           <el-col :span="4">
@@ -160,6 +164,7 @@ import _ from 'lodash';
 import { mapState } from 'vuex';
 import appState from '../appState';
 import ExportWallet from '../components/ExportWallet.vue';
+import ImportWallet from '../components/ImportWallet.vue';
 import KeystoreInput from '../components/KeystoreInput.vue';
 import AccountBalancesSidebar from '../components/AccountBalancesSidebar.vue';
 import AccountLockBalancesPanel from '../components/AccountLockBalancesPanel.vue';
@@ -171,6 +176,7 @@ let { PrivateKey, key, TransactionBuilder, TransactionHelper, WalletAccountUtil 
 export default {
   name: 'XwcMyWallet',
   components: {
+    ImportWallet,
     ExportWallet,
     KeystoreInput,
     AccountBalancesSidebar,
@@ -180,6 +186,7 @@ export default {
     return {
       opened: false,
       isExport: false,
+      isImport: false,
       currentAddress: '',
       privateKey: '',
       currentAccount: '',
@@ -230,10 +237,16 @@ export default {
     appState.offChangeCurrentAccount(this.onChangeCurrentAccount);
   },
   methods: {
+    getPrivateKeyFromSeed(seed) {
+      let pkey = PrivateKey.fromSeed(key.normalize_brainKey(seed));
+
+      return pkey.toWif();
+    },
     handlePrivate(e) {
       if (e === 'export') {
         this.toggleExportView(true);
       } else if (e === 'import') {
+        this.toggleImportView(true);
       }
     },
     showError(e) {
@@ -311,12 +324,35 @@ export default {
       }
     },
     onCopyPrivateKey() {
-      this.$copyText(this.privateKey);
+      this.$copyText(this.getPrivateKeyFromSeed(this.privateKey));
     },
     onChangeCurrentAccount(account) {
       this.currentAccount = account;
       this.currentAddress = account.address;
       this.privateKey = account.getPrivateKeyString();
+    },
+    onImportWallet(password) {
+      const pKey = PrivateKey.fromWif(password);
+      const pSeed = pKey.toWif();
+
+      if (pSeed) {
+        let account = account_utils.NewAccount();
+
+        account.setPrivateKey(pSeed);
+        account.address = null;
+        let address = account.getAddressString(appState.getAddressPrefix());
+        account.address = address;
+        this.walletJsonAccounts.push(account);
+        this.unlockWalletForm.walletAccountsToSelect = true;
+
+        appState.changeCurrentAccount(account);
+        this.currentAccount = account;
+        this.loadCurrentAccountInfo();
+        this.showSuccess(this.$t('dialogs.unlock_successfully'));
+        this.opened = true;
+        this.toggleImportView(false);
+        console.log('Public key :', pKey.toPublicKey().toString(), '\n', pKey.toWif(), '\n');
+      }
     },
     updateCurrentAccountBalances(balances) {
       this.currentAccountBalances = balances;
@@ -352,6 +388,9 @@ export default {
         this.unlockPrivateKey.password = '';
         this.unlockPrivateKey.locked = true;
       }
+    },
+    toggleImportView(flag) {
+      this.isImport = flag;
     },
     logoutMyWallet() {
       appState.changeCurrentAccount(null);
