@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- when need to unlock account -->
-    <div v-if="!opened">
+    <div v-if="!opened && !isImport">
       <div class="xwc-main-container xwc-my-wallet-container">
         <el-form
           :model="unlockWalletForm"
@@ -16,10 +16,7 @@
               :filename="unlockWalletForm.keystoreFile"
             ></KeystoreInput>
           </el-form-item>
-          <el-form-item
-            v-bind:label="$t('myWalletPage.please_input_wallet_password')"
-            prop="password"
-          >
+          <el-form-item v-bind:label="$t('myWalletPage.wallet_password')" prop="password">
             <el-input
               v-bind:placeholder="$t('myWalletPage.please_input_wallet_password')"
               type="password"
@@ -28,12 +25,21 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button
-              type="primary"
-              class="-unlock-keystore-file-btn"
-              v-on:click="toUnlockKeystoreFile"
-              >{{ $t('myWalletPage.unlock_right_now') }}</el-button
-            >
+            <el-row type="flex">
+              <el-button
+                type="primary"
+                class="-unlock-keystore-file-btn"
+                v-on:click="toUnlockKeystoreFile"
+                >{{ $t('myWalletPage.unlock_right_now') }}</el-button
+              >
+              <el-button
+                type="primary"
+                class="-unlock-keystore-file-btn"
+                v-on:click="handleImportPrivate"
+              >
+                Import PrivateKey
+              </el-button>
+            </el-row>
           </el-form-item>
           <el-form-item
             v-if="walletJsonAccounts && unlockWalletForm.walletAccountsToSelect"
@@ -71,7 +77,7 @@
 
     <div v-if="opened && isExport">
       <ExportWallet
-        :privateKey="getPrivateKeyFromSeed(privateKey)"
+        :privateKey="privateKey"
         :locked="unlockPrivateKey.locked"
         :password="unlockPrivateKey.password"
         :handleUnlockPrivateKey="handleUnlockPrivateKey"
@@ -86,11 +92,13 @@
 
     <!-- TODO: use AccountInfo component -->
     <!-- when account opened -->
-    <div v-if="opened && !isExport && !isImport">
+    <div v-if="opened && !isExport">
       <div class="xwc-main-container xwc-my-opened-wallet-container1">
         <el-row class="-address-row">
           <el-col :span="4">
-            <div class="grid-content label-font">{{ $t('myWalletPage.my_address') }}</div>
+            <div class="grid-content label-font">
+              {{ $t('myWalletPage.my_address') }}
+            </div>
           </el-col>
           <el-col :span="8" class="-current-address-panel">
             <div class="grid-content label-font">
@@ -98,7 +106,9 @@
             </div>
           </el-col>
           <el-col :span="4" class="-current-account-name-label-panel">
-            <div class="grid-content label-font">{{ $t('myWalletPage.account_name') }}</div>
+            <div class="grid-content label-font">
+              {{ $t('myWalletPage.account_name') }}
+            </div>
           </el-col>
           <el-col :span="8" class="-account-name-and-change-wallet-panel">
             <div class="grid-content label-font" style="text-align: left;">
@@ -145,15 +155,14 @@
           >{{ $t('Logout') }}</el-button
         >
 
-        <el-dropdown split-button type="primary" @command="handlePrivate">
-          Import/Export PrivateKey
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="import">{{ $t('Import PrivateKey') }}</el-dropdown-item>
-            <el-dropdown-item command="export">
-              {{ $t('Export PrivateKey') }}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <el-button
+          type="primary"
+          class="-ctrl-btn xwcwallet-form-btn"
+          @click="handleExportPrivate"
+          size="small"
+        >
+          {{ $t('Export PrivateKey') }}
+        </el-button>
       </div>
     </div>
   </div>
@@ -242,12 +251,11 @@ export default {
 
       return pkey.toWif();
     },
-    handlePrivate(e) {
-      if (e === 'export') {
-        this.toggleExportView(true);
-      } else if (e === 'import') {
-        this.toggleImportView(true);
-      }
+    handleImportPrivate(e) {
+      this.toggleImportView(true);
+    },
+    handleExportPrivate() {
+      this.toggleExportView(true);
     },
     showError(e) {
       e = utils.getShowErrorMessage(e, this.$t.bind(this));
@@ -324,21 +332,21 @@ export default {
       }
     },
     onCopyPrivateKey() {
-      this.$copyText(this.getPrivateKeyFromSeed(this.privateKey));
+      this.$copyText(this.privateKey);
     },
     onChangeCurrentAccount(account) {
       this.currentAccount = account;
       this.currentAddress = account.address;
       this.privateKey = account.getPrivateKeyString();
     },
-    onImportWallet(password) {
-      const pKey = PrivateKey.fromWif(password);
-      const pSeed = pKey.toWif();
+    onImportWallet(seedPhrase) {
+      const pKey = PrivateKey.fromSeed(seedPhrase);
+      const pSeed = seedPhrase;
 
-      if (pSeed) {
+      if (pSeed && pSeed.length === 64) {
         let account = account_utils.NewAccount();
 
-        account.setPrivateKey(pSeed);
+        account.setPrivateKey(seedPhrase);
         account.address = null;
         let address = account.getAddressString(appState.getAddressPrefix());
         account.address = address;
@@ -348,10 +356,19 @@ export default {
         appState.changeCurrentAccount(account);
         this.currentAccount = account;
         this.loadCurrentAccountInfo();
+
+        try {
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('keySeed', pSeed);
+            localStorage.setItem('keyPassword', '1234');
+          }
+        } catch (e) {
+          console.log(e);
+        }
+
         this.showSuccess(this.$t('dialogs.unlock_successfully'));
         this.opened = true;
         this.toggleImportView(false);
-        console.log('Public key :', pKey.toPublicKey().toString(), '\n', pKey.toWif(), '\n');
       }
     },
     updateCurrentAccountBalances(balances) {
@@ -400,6 +417,7 @@ export default {
         if (typeof localStorage !== 'undefined') {
           localStorage.setItem('keyInfo', '');
           localStorage.setItem('keyPassword', '');
+          location.reload();
         }
       } catch (e) {
         console.log(e);
@@ -623,11 +641,6 @@ export default {
   .el-input {
     width: 220pt !important;
   }
-  .el-input__inner {
-    border: 0 !important;
-    border-bottom: solid 1px #cccccc !important;
-    border-radius: 0 !important;
-  }
   .-selectKeyStoreFile {
     cursor: pointer;
   }
@@ -637,7 +650,6 @@ export default {
     color: white;
     font-size: 10pt;
     background: linear-gradient(#3894e3, #2e8ae7);
-    margin-left: -80pt;
   }
 }
 @media (max-width: 600px) {
