@@ -25,7 +25,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-row type="flex">
+            <el-row type="flex" style="margin: auto; justify-content: center;">
               <el-button
                 type="primary"
                 class="-unlock-keystore-file-btn"

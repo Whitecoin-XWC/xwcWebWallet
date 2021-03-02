@@ -13,7 +13,7 @@ export default {
     wallet_password: 'Wallet Password',
     not_registered: 'Not Registered',
     change_wallet: 'Change Wallet',
-    unlock_right_now: 'Unlock now',
+    unlock_right_now: 'Unlock Now',
     select_wallet: 'Select Wallet',
     please_input_wallet_password: 'Please enter your wallet password',
   },
@@ -53,7 +53,7 @@ export default {
       'Wallet files are used to import and retrieve your wallet and assets, so be sure to save them properly',
     open_wallet_right_now: 'Open the wallet now',
     please_set_password: 'Please set wallet password',
-    set_wallet_password: 'Set wallet password',
+    set_wallet_password: 'Wallet Password',
     find_wallet_file_in_download_directory:
       'Please find your new wallet file in download directory after downloaded',
     import_mnemonic: 'Import Mnemonic',
