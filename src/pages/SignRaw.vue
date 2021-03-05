@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="xwc-main-container xwc-sign-raw-container">
-      <div class="-sign-raw-title">{{$t('signRawPage.title')}}</div>
+      <div class="-sign-raw-title">{{ $t('signRawPage.title') }}</div>
       <div v-if="!signRawDone">
         <el-form
           :model="signRawForm"
@@ -19,7 +19,7 @@
               style="width: 100pt;"
             ></el-input>
           </div>
-          <div style="margin: 20px 0;">
+          <div class="-option-signature">
             <el-switch
               style="width: 290px;"
               v-model="signRawForm.isTx"
@@ -38,14 +38,15 @@
               type="primary"
               class="xwcwallet-form-btn"
               v-on:click="toSignRaw(signRawForm.content)"
-            >{{$t('signRawPage.sign_now')}}</el-button>
+              >{{ $t('signRawPage.sign_now') }}</el-button
+            >
           </div>
         </el-form>
       </div>
       <div v-if="signRawDone" class="xwc-sign-raw-done-container">
         <div class="-sign-raw-title">Signature:</div>
         <div v-if="signRawForm.signedSignatureHex">
-          <p class="-signed-text">{{signRawForm.signedSignatureHex}}</p>
+          <p class="-signed-text">{{ signRawForm.signedSignatureHex }}</p>
         </div>
         <div v-if="!signRawForm.signedSignatureHex">Sign failed</div>
       </div>
@@ -54,27 +55,27 @@
 </template>
 
 <script>
-import _ from "lodash";
-import appState from "../appState";
-import AccountInfo from "./AccountInfo.vue";
-import ContractInfoPanel from "../components/ContractInfoPanel.vue";
-import TransactionInfo from "../components/TransactionInfo.vue";
-import AddressOrSelectWalletInput from "../components/AddressOrSelectWalletInput.vue";
-import utils from "../utils";
+import _ from 'lodash';
+import appState from '../appState';
+import AccountInfo from './AccountInfo.vue';
+import ContractInfoPanel from '../components/ContractInfoPanel.vue';
+import TransactionInfo from '../components/TransactionInfo.vue';
+import AddressOrSelectWalletInput from '../components/AddressOrSelectWalletInput.vue';
+import utils from '../utils';
 let { PrivateKey, key, TransactionBuilder, TransactionHelper } = xwc_js;
 
 export default {
-  name: "CheckTx",
+  name: 'CheckTx',
   components: {
     AccountInfo,
     ContractInfoPanel,
     TransactionInfo,
-    AddressOrSelectWalletInput
+    AddressOrSelectWalletInput,
   },
   data() {
     return {
       signRawForm: {
-        isTx: false
+        isTx: false,
       },
 
       signRawDone: false,
@@ -82,7 +83,7 @@ export default {
       signedSignatureHex: null,
       currentAccountInfo: {},
       currentAccount: null,
-      closeTimeoutMilli: 5000
+      closeTimeoutMilli: 5000,
     };
   },
   created() {
@@ -117,7 +118,7 @@ export default {
       const rawData = msg;
       const content = rawData.rawData;
       this.signRawForm.content = content;
-      console.log("to sign text", content);
+      console.log('to sign text', content);
       this.$forceUpdate();
     },
     showError(e) {
@@ -125,20 +126,20 @@ export default {
       this.$message({
         showClose: true,
         message: e,
-        type: "error"
+        type: 'error',
       });
     },
     showSuccess(info) {
       this.$message({
         showClose: true,
-        message: (info || "success").toString(),
-        type: "success"
+        message: (info || 'success').toString(),
+        type: 'success',
       });
     },
     toSignRaw(content) {
       try {
         if (!this.currentAccount) {
-          this.showError("Please open wallet first");
+          this.showError('Please open wallet first');
           return;
         }
         if (!content || content.length < 1) {
@@ -148,8 +149,8 @@ export default {
         const isTx = !!this.signRawForm.isTx;
         if (!isTx) {
           // only sign content with verified format, starts with '{' or '['
-          if (content[0] !== "{" && content[0] !== "[") {
-            this.showError("Content to sign must start with { or [");
+          if (content[0] !== '{' && content[0] !== '[') {
+            this.showError('Content to sign must start with { or [');
             return;
           }
         }
@@ -165,18 +166,18 @@ export default {
 
         // if isTx, sign chainIdHex + contentHex
         const networkObj = appState.getCurrentNetworkObj();
-        const chainId = networkObj.chainId || "";
+        const chainId = networkObj.chainId || '';
         const toSignHex = isTx ? chainId + contentHex : contentHex;
 
         const rawSig = TransactionHelper.signHex(toSignHex, pkey, pubKey);
         const rawSigHex = rawSig.toHex();
-        console.log("rawSig", rawSigHex);
+        console.log('rawSig', rawSigHex);
         this.signRawForm.signedSignatureHex = rawSigHex;
         this.signRawDone = true;
 
         //   appState.bindPayId(rawSigHex);
-        if (typeof messageToBackground !== "undefined") {
-          messageToBackground("sig", rawSigHex);
+        if (typeof messageToBackground !== 'undefined') {
+          messageToBackground('sig', rawSigHex);
           if (utils.isChromeExtension()) {
             this.closeTimer = setTimeout(() => {
               if (!this.destroyed) {
@@ -187,7 +188,7 @@ export default {
           }
         }
       } catch (e) {
-        this.showError("some error happen. maybe invalid tx hex");
+        this.showError('some error happen. maybe invalid tx hex');
       }
     },
     loadCurrentAccountInfo() {
@@ -198,15 +199,13 @@ export default {
       appState
         .withSystemAssets()
         .then(() => {
-          return nodeClient
-            .getAccountByAddresss(this.currentAddress)
-            .then(accountInfo => {
-              if (accountInfo) {
-                this.currentAccountInfo = accountInfo;
-              } else {
-                this.currentAccountInfo = {};
-              }
-            });
+          return nodeClient.getAccountByAddresss(this.currentAddress).then((accountInfo) => {
+            if (accountInfo) {
+              this.currentAccountInfo = accountInfo;
+            } else {
+              this.currentAccountInfo = {};
+            }
+          });
         })
         .catch(this.showError.bind(this));
     },
@@ -214,8 +213,8 @@ export default {
       this.currentAccount = account;
       this.currentAddress = account.address;
       this.loadCurrentAccountInfo();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -237,8 +236,8 @@ export default {
   min-width: 400px;
   min-height: 266pt;
   .-sign-raw-title {
-    font-size: 20pt;
-    color: #261932;
+    font-size: 2rem;
+    color: #a99eb4;
     margin-bottom: 40pt;
   }
   .-address-rule-desc {
@@ -255,22 +254,28 @@ export default {
     }
   }
   label {
-    font-size: 10pt;
-    color: #261932;
+    font-size: 1rem;
+    color: #a99eb4;
   }
   .el-input {
     width: 220pt !important;
-  }
-  .el-input__inner {
-    border: 0 !important;
-    border-bottom: solid 1px #cccccc !important;
-    border-radius: 0 !important;
   }
   .-signed-text {
     color: #a99eb4;
     font-size: 10pt;
     padding: 5pt;
     word-break: break-all;
+  }
+  .-option-signature {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    > .el-switch {
+      display: flex;
+      text-align: center;
+      justify-content: center;
+    }
   }
   .el-switch__core {
     width: 40px !important;

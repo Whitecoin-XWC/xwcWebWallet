@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!checkTxDone" class="xwc-main-container xwc-check-tx-container">
-      <div class="-check-tx-title">{{$t('checkTxPage.title')}}</div>
+      <div class="-check-tx-title">{{ $t('checkTxPage.title') }}</div>
       <div>
         <el-input
           class="-input-address"
@@ -16,7 +16,8 @@
           type="primary"
           class="xwcwallet-form-btn"
           v-on:click="toQueryTx(checkTxForm.address)"
-        >{{$t('checkTxPage.query_now')}}</el-button>
+          >{{ $t('checkTxPage.query_now') }}</el-button
+        >
       </div>
     </div>
     <div v-if="checkTxDone" class="xwc-check-tx-done-container">
@@ -24,36 +25,44 @@
         <TransactionInfo style="margin-top: 5pt;" :txid="data.trxid"></TransactionInfo>
       </div>
       <div v-if="checkTxForm.isXwcAccountAddr && data">
-        <AccountInfo style="margin-top: 5pt;" :accountAddress="data.addr" :myself="false"></AccountInfo>
+        <AccountInfo
+          style="margin-top: 5pt;"
+          :accountAddress="data.addr"
+          :myself="false"
+        ></AccountInfo>
       </div>
       <div v-if="checkTxForm.isXwcContractAddr && data">
         <ContractInfoPanel style="margin-top: 5pt;" :contractAddress="data.id"></ContractInfoPanel>
       </div>
       <div
-        v-if="!checkTxForm.isTxId && !checkTxForm.isXwcAccountAddr && !checkTxForm.isXwcContractAddr"
-      >Not supported address type</div>
+        v-if="
+          !checkTxForm.isTxId && !checkTxForm.isXwcAccountAddr && !checkTxForm.isXwcContractAddr
+        "
+      >
+        Not supported address type
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import _ from "lodash";
-import appState from "../appState";
-import AccountInfo from "./AccountInfo.vue";
-import ContractInfoPanel from "../components/ContractInfoPanel.vue";
-import TransactionInfo from "../components/TransactionInfo.vue";
-import utils from "../utils";
+import _ from 'lodash';
+import appState from '../appState';
+import AccountInfo from './AccountInfo.vue';
+import ContractInfoPanel from '../components/ContractInfoPanel.vue';
+import TransactionInfo from '../components/TransactionInfo.vue';
+import utils from '../utils';
 let { PrivateKey, key, TransactionBuilder, TransactionHelper } = xwc_js;
 
 export default {
-  name: "CheckTx",
+  name: 'CheckTx',
   components: { AccountInfo, ContractInfoPanel, TransactionInfo },
   data() {
     return {
       checkTxForm: {},
 
       checkTxDone: false,
-      data: null
+      data: null,
     };
   },
   created() {
@@ -61,7 +70,7 @@ export default {
     if (tabParams && tabParams.length > 0) {
       const txidOrAddress = tabParams[0];
       this.checkTxForm.address = txidOrAddress;
-      console.log("to check tx ", txidOrAddress);
+      console.log('to check tx ', txidOrAddress);
     }
   },
   mounted() {
@@ -76,30 +85,30 @@ export default {
       this.$message({
         showClose: true,
         message: e,
-        type: "error"
+        type: 'error',
       });
     },
     showSuccess(info) {
       this.$message({
         showClose: true,
-        message: (info || "success").toString(),
-        type: "success"
+        message: (info || 'success').toString(),
+        type: 'success',
       });
     },
     toQueryTx(txidOrAddress) {
-      txidOrAddress = (txidOrAddress || "").trim();
+      txidOrAddress = (txidOrAddress || '').trim();
       if (txidOrAddress.length < 1) {
-        this.showError(this.$t("forms.invalid_input_format"));
+        this.showError(this.$t('forms.invalid_input_format'));
         return;
       }
       let isTxId = txidOrAddress.length === 40;
       let addressPrefix = appState.getAddressPrefix();
       let isXwcAccountAddr =
         txidOrAddress.indexOf(addressPrefix) === 0 &&
-        txidOrAddress.indexOf(addressPrefix + "C") !== 0 &&
+        txidOrAddress.indexOf(addressPrefix + 'C') !== 0 &&
         txidOrAddress.length > 20;
       let isXwcContractAddr =
-        txidOrAddress.indexOf(addressPrefix + "C") === 0 && txidOrAddress.length > 20;
+        txidOrAddress.indexOf(addressPrefix + 'C') === 0 && txidOrAddress.length > 20;
       this.checkTxForm.isTxId = isTxId;
       this.checkTxForm.isXwcAccountAddr = isXwcAccountAddr;
       this.checkTxForm.isXwcContractAddr = isXwcContractAddr;
@@ -108,26 +117,20 @@ export default {
         .withApis()
         .then(() => {
           if (isTxId) {
-            return nodeClient.getTransactionById(
-              txidOrAddress
-            );
+            return nodeClient.getTransactionById(txidOrAddress);
           } else if (isXwcAccountAddr) {
-            return nodeClient.getAccountByAddresss(
-              txidOrAddress
-            );
+            return nodeClient.getAccountByAddresss(txidOrAddress);
           } else if (isXwcContractAddr) {
-            return nodeClient.getSimpleContractInfo(
-              txidOrAddress
-            );
+            return nodeClient.getSimpleContractInfo(txidOrAddress);
           } else {
             // account name
             return nodeClient.getAccount(txidOrAddress);
           }
         })
-        .then(data => {
+        .then((data) => {
           if (!data) {
             data = {
-              addr: txidOrAddress
+              addr: txidOrAddress,
             };
           }
           this.data = data;
@@ -139,8 +142,8 @@ export default {
           return data;
         })
         .catch(this.showError);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -162,8 +165,8 @@ export default {
   min-width: 400px;
   min-height: 266pt;
   .-check-tx-title {
-    font-size: 20pt;
-    color: #261932;
+    font-size: 2rem;
+    color: #a99eb4;
     margin-bottom: 40pt;
   }
   .-address-rule-desc {
@@ -185,11 +188,6 @@ export default {
   }
   .el-input {
     width: 220pt !important;
-  }
-  .el-input__inner {
-    border: 0 !important;
-    border-bottom: solid 1px #cccccc !important;
-    border-radius: 0 !important;
   }
 }
 

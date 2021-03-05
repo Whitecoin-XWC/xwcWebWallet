@@ -3,7 +3,14 @@
     <el-row style="max-width: 1000px; margin: 0 auto;">
       <el-col :span="8">
         <div class="grid-content">
-          <a href="https://whitecoin.info/" target="_blank"><img :src="'images/header-logo.png'" class="header-logo" style="margin-left: 10px;" alt /></a>
+          <a href="https://whitecoin.info/" target="_blank">
+            <img
+              :src="'images/header-logo.png'"
+              class="header-logo"
+              style="margin-left: 10px;"
+              alt
+            />
+          </a>
         </div>
       </el-col>
       <el-col :span="16" style="text-align: right;">
@@ -45,30 +52,52 @@
 </template>
 
 <script>
-import EventEmitter from "eventemitter3";
-import appState from "../appState.js";
+import EventEmitter from 'eventemitter3';
+import appState from '../appState.js';
 
 export default {
-  name: "PageHeader",
+  name: 'PageHeader',
   data() {
     return {
       network: appState.getCurrentNetwork(),
       language: appState.getCurrentLanguage(),
       connected: false,
-      connectCheckInterval: null
+      connectCheckInterval: null,
+      mainnetList: [
+        'ws://112.5.37.28:23454',
+        'ws://112.5.37.28:23455',
+        'ws://123.129.217.68:23454',
+        'ws://123.129.217.68:23455',
+        'ws://27.159.82.205:23454',
+        'ws://27.159.82.205:23455',
+        'ws://117.24.6.145:23454',
+        'ws://117.24.6.145:23455',
+        'ws://223.111.134.138:23454',
+        'ws://223.111.134.138:23455',
+        'ws://46.29.163.206:23454',
+        'ws://46.29.163.206:23455',
+        'ws://194.62.214.170:23454',
+        'ws://194.62.214.170:23455',
+        'ws://43.242.203.134:23454',
+        'ws://43.242.203.134:23455',
+      ],
     };
   },
   mounted() {
     this.connectCheckInterval = setInterval(() => {
       const nodeClient = appState.getNodeClient();
-      nodeClient.execDbApi("get_block", 1).then( // get_sync_mode_network_info
-        data => {
+      nodeClient.execDbApi('get_block', 1).then(
+        // get_sync_mode_network_info
+        (data) => {
           console.log(data); // show block height
           this.connected = true;
-          
         },
-        err => {
-          console.log(err);
+        (err) => {
+          console.log('err');
+          if (this.connected === false && this.network === 'mainnet') {
+            const nodeNum = Math.floor(Math.random() * this.mainnetList.length);
+            this.onChangeNetwork(this.network, this.mainnetList[nodeNum]);
+          }
           this.connected = false;
         }
       );
@@ -81,15 +110,15 @@ export default {
     }
   },
   methods: {
-    onChangeNetwork(network) {
-      if (network === "customize") {
-        console.log("customize");
+    onChangeNetwork(network, nodeServer = null) {
+      if (network === 'customize') {
+        console.log('customize');
         // 进入自定义network界面
-        appState.changeCurrentTab("customize_network");
+        appState.changeCurrentTab('customize_network');
         return;
       }
       this.network = network;
-      appState.changeCurrentNetwork(this.network);
+      appState.changeCurrentNetwork(this.network, nodeServer);
     },
     onChangeLang(lang) {
       this.language = lang;
@@ -100,8 +129,8 @@ export default {
     },
     getNetworkList() {
       return appState.getNetworkList();
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -2,7 +2,7 @@
   <div class="xwc-address-or-select-wallet-input">
     <div v-if="currentAddress && walletUnlocked">
       <el-form-item
-        v-bind:label="$t('keystoreInput.from_address')"
+        v-bind:label="$t('keystoreInput.from_address') + ':'"
         ng-if="false"
         class="-address-select-panel"
         prop="currentAddress"
@@ -246,16 +246,19 @@ export default {
     margin-left: -80pt;
   }
   .-address-show-label {
-    padding-left: 50pt;
     float: left;
   }
   .-change-wallet-btn {
     color: #a64eb5;
     float: left;
     padding-left: 10pt;
+    cursor: pointer;
   }
   .-address-select-panel {
+    display: flex;
+    justify-content: center;
     text-align: center !important;
+
     .el-form-item__content {
       display: inline-block;
       margin-left: 0 !important;

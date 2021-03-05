@@ -345,16 +345,16 @@ export default {
         const networkObj = getNetworkByKey(key);
         return networkObj;
     },
-    changeCurrentNetwork(network) {
+    changeCurrentNetwork(network, nodeServer = null) {
         network = network || 'mainnet';
-        if (state.currentNetwork === network) {
+        if (state.currentNetwork === network && nodeServer === null) {
             return;
         }
         const oldNetwork = state.currentNetwork;
         state.currentNetwork = network;
         const networkObj = getNetworkByKey(network);
         if (networkObj) {
-            const chainRpcUrl = networkObj.url;
+            const chainRpcUrl = nodeServer ? nodeServer : networkObj.url;
             Apis.setAutoReconnect(true);
             state.apisInstance = Apis.instance(chainRpcUrl, true);
             state.apisInstance.closeCb = () => {
