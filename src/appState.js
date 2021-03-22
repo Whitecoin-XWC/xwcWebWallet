@@ -76,42 +76,63 @@ function mergeNetworkListWithLocalNetwork() {
         networkList.push(network);
     }
     return networkList;
+  }
+  let found = false;
+  for (let item of networkList) {
+    if (item.key === network.key && item.url !== network.url) {
+      item.url = network.url;
+      item.chainId = network.chainId;
+      item.name = network.name;
+      found = true;
+      break;
+    }
+  }
+  if (!found) {
+    networkList.push(network);
+  }
+  return networkList;
 }
 
 function getNetworkByKey(networkKey) {
-    for (let n of networkList) {
-        if (n.key === networkKey) {
-            return n;
-        }
+  for (let n of networkList) {
+    if (n.key === networkKey) {
+      return n;
     }
-    return null;
+  }
+  return null;
 }
 
 const state = {
-    currentTab: 'my_wallet',
-    currentTabParams: null,
-    currentNetwork: null,
-    currentLanguage: 'chinese',
-    currentKeystoreFileJson: null,
-    currentKeystorePassword: '',
-    currentAccount: null,
-    currentAddress: null,
-    apisInstance: null,
-    nodeClient: null,
+  currentTab: "my_wallet",
+  currentTabParams: null,
+  currentNetwork: null,
+  currentLanguage: "chinese",
+  currentKeystoreFileJson: null,
+  currentKeystorePassword: "",
+  currentAccount: null,
+  currentAddress: null,
+  apisInstance: null,
+  nodeClient: null,
 
-    systemAssets: [], // [{id: ..., symbol: ..., precision: ..., issuer: ..., options: ..., current_feed: ...}]
+  systemAssets: [], // [{id: ..., symbol: ..., precision: ..., issuer: ..., options: ..., current_feed: ...}]
 
-    flashTxMessage: null, // received tx message from postMessage
+  flashTxMessage: null, // received tx message from postMessage
 
-    xwcPayCallback: null,
-    lastSerialNumber: null,
+  xwcPayCallback: null,
+  lastSerialNumber: null,
 
-    tokenExplorerApiUrl: 'http://106.12.185.216/graphql',
+  tokenExplorerApiUrl: "http://106.12.185.216/graphql",
 };
 
 // TODO: read current account from chrome.storage
 
-let { PrivateKey, key, TransactionBuilder, TransactionHelper, NodeClient } = xwc_js;
+let {
+  PrivateKey,
+  key,
+  TransactionBuilder,
+  TransactionHelper,
+  NodeClient,
+} = xwc_js;
 let { Apis, ChainConfig } = xwc_js.bitshares_ws;
 
 // TODO: read last used chainId or default
@@ -161,6 +182,7 @@ function setCurrentAccount() {
             console.log(e);
         }
     }
+  }
 }
 
 setCurrentAccount();
@@ -186,13 +208,16 @@ function getLocationHash() {
 }
 
 function parseQuery(queryString) {
-    var query = {};
-    var pairs = (queryString[0] === '?' ? queryString.substr(1) : queryString).split('&');
-    for (var i = 0; i < pairs.length; i++) {
-        var pair = pairs[i].split('=');
-        query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
-    }
-    return query;
+  var query = {};
+  var pairs = (queryString[0] === "?"
+    ? queryString.substr(1)
+    : queryString
+  ).split("&");
+  for (var i = 0; i < pairs.length; i++) {
+    var pair = pairs[i].split("=");
+    query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || "");
+  }
+  return query;
 }
 
 // receive params
@@ -233,8 +258,16 @@ switch (locationHash) {
             state.currentTabParams = ['locktominer', lockToMinerName];
         }
     }
+    break;
+  default: {
+    if (locationHash && locationHash.indexOf("#locktominer=") === 0) {
+      const lockToMinerName = locationHash.substr("#locktominer=".length);
+      state.currentTab = "my_wallet";
+      state.currentTabParams = ["locktominer", lockToMinerName];
+    }
+  }
 }
-location.hash = '';
+location.hash = "";
 
 export default {
     EE,

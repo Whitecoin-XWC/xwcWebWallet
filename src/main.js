@@ -12,10 +12,22 @@ import VueI18n from 'vue-i18n';
 import messages from './translations';
 import appState from './appState';
 
+window.Vue = Vue;
+Vue.use(ElementUI);
+
+const query=location.search.substr(1)
+console.log(query);
+const lang={};
+query.split("&").forEach(item=>{
+   let obj = item.split("=");
+   lang[obj[0]] = obj[1]
+})
+
+appState.changeCurrentLanguage(lang.lang)
 const i18n = new VueI18n({
   locale: appState.getCurrentLanguage(),
   fallbackLocale: 'english',
-  messages, // set locale messages
+  messages, // set locale messages,
 });
 
 Vue.use(VueI18n);

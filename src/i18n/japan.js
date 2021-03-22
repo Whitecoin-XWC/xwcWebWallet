@@ -3,7 +3,7 @@ export default {
         my_wallet: '私のウォレット',
         create_wallet: 'ウォレットを作成します',
         transfer: '送金',
-        contract: 'コントラクト',
+        contract: 'Smart Contract',
         check_tx: 'トランザクションを検索します',
         sign_raw: 'サイン',
     },

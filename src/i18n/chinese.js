@@ -3,7 +3,7 @@ export default {
         my_wallet: '我的钱包',
         create_wallet: '创建钱包',
         transfer: '转账',
-        contract: '合约',
+        contract: 'Smart Contract',
         check_tx: '查询交易',
         sign_raw: '签名',
     },
