@@ -10,11 +10,11 @@ const networkList = [
         // url: "ws://120.79.93.99:8091"
         url: 'wss://node.whitecoin.info',
     },
-    {
-        chainId: 'ea1ecf2d8a22d5894280aca2327423f42226e0ecf656f4869972c1c83b6f2a63', key: 'mainnet1', name: "Mainnet1",
-        // url: "ws://120.79.93.99:8091"
-        url: "wss://node1.whitecoin.info"
-    },
+    // {
+    //     chainId: 'ea1ecf2d8a22d5894280aca2327423f42226e0ecf656f4869972c1c83b6f2a63', key: 'mainnet1', name: "Mainnet1",
+    //     // url: "ws://120.79.93.99:8091"
+    //     url: "wss://node1.whitecoin.info"
+    // },
     // { chainId: '9f3b24c962226c1cb775144e73ba7bb177f9ed0b72fac69cd38764093ab530bd', key: 'testnet', name: "Testnet", url: "ws://47.74.44.110:8090" },
     {
         //  chainId: 'fe70279c1d9850d4ddb6ca1f00c577bc2e86bf33d54fafd4c606a6937b89ae32', // local testnet
