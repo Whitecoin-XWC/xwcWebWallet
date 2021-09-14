@@ -158,7 +158,7 @@ export default {
         try {
           if (typeof chrome !== 'undefined' && chrome.storage) {
             chrome.storage.local.set({ keyInfo: fileJson }, function() {
-              console.log('Value is set to ' + valueJson);
+              console.log('Value is set to ' + fileJson);
             });
             messageToBackground('newWallet', 'false');
           }
