@@ -173,8 +173,8 @@ export default {
     forms: {
         invalid_input_format: '输入格式错误',
     },
-    'Key derivation failed - possibly wrong passphrase': '解锁失败，可能密码错误',
-    'Unsupported key derivation scheme': '解锁失败，可能密码文件错误',
+    'Key derivation failed - possibly wrong passphrase': '解锁失败，密码错误',
+    'Unsupported key derivation scheme': '解锁失败，文件错误',
     'Unsupported parameters to PBKDF2': '解锁失败，不支持的PBKDF2参数',
     'Not supported wallet version': '不支持的钱包版本',
     'Connection failed': '连接失败',
