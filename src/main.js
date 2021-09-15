@@ -12,16 +12,18 @@ import VueI18n from 'vue-i18n';
 import messages from './translations';
 import appState from './appState';
 
-const query=location.search.substr(1)
-console.log(query);
-const lang={};
-query.split("&").forEach(item=>{
-   let obj = item.split("=");
-   lang[obj[0]] = obj[1]
-})
-console.log(lang)
 
-appState.changeCurrentLanguage(lang.lang)
+const query = location.search.substr(1)
+console.log(`url参数：${query}`);
+if (query.length > 0) {
+  query.split("&").forEach(item => {
+    let obj = item.split("=");
+    if (obj[0] === 'lang') {
+      appState.changeCurrentLanguage(obj[1])
+    }
+  })
+}
+
 const i18n = new VueI18n({
   locale: appState.getCurrentLanguage(),
   fallbackLocale: 'english',
@@ -53,7 +55,7 @@ const app = new Vue({
 if (window.applicationCache) {
   window.addEventListener(
     'load',
-    function(e) {
+    function (e) {
       var appCache = window.applicationCache;
 
       appCache.update(); // Attempt to update the user's cache.
@@ -64,7 +66,7 @@ if (window.applicationCache) {
 
       window.applicationCache.addEventListener(
         'updateready',
-        function(e) {
+        function (e) {
           console.log('update ready');
           if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
             // Browser downloaded a new app cache.

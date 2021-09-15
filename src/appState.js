@@ -96,7 +96,7 @@ const state = {
     currentTab: 'my_wallet',
     currentTabParams: null,
     currentNetwork: null,
-    currentLanguage: 'chinese',
+    currentLanguage: 'english',
     currentKeystoreFileJson: null,
     currentKeystorePassword: '',
     currentAccount: null,
@@ -180,7 +180,7 @@ const connectionCloseEventName = 'connectionClose';
 
 const languageConfigStorageKey = 'languageConfig';
 
-state.currentLanguage = getStorage(languageConfigStorageKey) || 'chinese';
+state.currentLanguage = getStorage(languageConfigStorageKey) || 'english';
 
 function getLocationHash() {
     if (typeof location !== 'undefined') {
