@@ -118,6 +118,7 @@ export default {
     balance: 'Balance',
     test: 'Test',
     submit: 'Submit',
+    return: 'Back',
     confirm: 'Confirm',
     confirmWithSpace: 'Confirm',
     transferWithSpace: 'Transfer',
