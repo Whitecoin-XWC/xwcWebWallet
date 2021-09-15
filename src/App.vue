@@ -3,14 +3,14 @@
     <PageHeader></PageHeader>
     <XwcToolbar></XwcToolbar>
     <div>
-      <XwcMyWallet v-if="currentTabKey==='my_wallet'"></XwcMyWallet>
-      <CreateWallet v-if="currentTabKey==='create_wallet'"></CreateWallet>
-      <RegisterAccount v-if="currentTabKey==='register_account'"></RegisterAccount>
-      <Transfer v-if="currentTabKey==='transfer'"></Transfer>
-      <CheckTx v-if="currentTabKey==='check_tx'"></CheckTx>
-      <SignRaw v-if="currentTabKey==='sign_raw'"></SignRaw>
-      <Contract v-if="currentTabKey==='contract'"></Contract>
-      <CustomizeNetwork v-if="currentTabKey==='customize_network'"></CustomizeNetwork>
+      <XwcMyWallet v-if="currentTabKey === 'my_wallet'"></XwcMyWallet>
+      <CreateWallet v-if="currentTabKey === 'create_wallet'"></CreateWallet>
+      <RegisterAccount v-if="currentTabKey === 'register_account'"></RegisterAccount>
+      <Transfer v-if="currentTabKey === 'transfer'"></Transfer>
+      <CheckTx v-if="currentTabKey === 'check_tx'"></CheckTx>
+      <SignRaw v-if="currentTabKey === 'sign_raw'"></SignRaw>
+      <Contract v-if="currentTabKey === 'contract'"></Contract>
+      <CustomizeNetwork v-if="currentTabKey === 'customize_network'"></CustomizeNetwork>
     </div>
     <div class="xwc-footer-bar">
       <div>@Copyright XWC chain</div>
@@ -43,7 +43,7 @@ export default {
     CheckTx,
     SignRaw,
     CustomizeNetwork,
-    Contract
+    Contract,
   },
   created() {
     const lastUsedNetwork = appState.getLastUsedNetwork();
@@ -62,7 +62,7 @@ export default {
   },
   data() {
     return {
-      currentTabKey: appState.getCurrentTab()
+      currentTabKey: appState.getCurrentTab(),
     };
   },
   methods: {
@@ -73,10 +73,10 @@ export default {
       this.$message({
         showClose: true,
         message: "Connection Closed",
-        type: "error"
+        type: "error",
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -158,6 +158,11 @@ a {
   background: linear-gradient(#3894e3, #2e8ae7);
   border: 0;
   border-radius: 0;
+}
+.xwcwallet-form-btn:hover {
+  background: #66b1ff;
+  border-color: #66b1ff;
+  color: #fff;
 }
 .el-switch__core {
   width: 20px !important;
