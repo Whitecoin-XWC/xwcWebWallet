@@ -873,7 +873,7 @@ export default {
       width: 75pt !important;
     }
     .el-form-item__content {
-      margin-left: 75pt !important;
+      // margin-left: 75pt !important;
       padding-left: 20px;
       text-align: left;
     }
