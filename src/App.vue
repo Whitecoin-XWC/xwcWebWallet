@@ -12,9 +12,9 @@
       <Contract v-if="currentTabKey === 'contract'"></Contract>
       <CustomizeNetwork v-if="currentTabKey === 'customize_network'"></CustomizeNetwork>
     </div>
-    <div class="xwc-footer-bar">
+    <!-- <div class="xwc-footer-bar">
       <div>@Copyright XWC chain</div>
-    </div>
+    </div> -->
   </div>
 </template>
 
