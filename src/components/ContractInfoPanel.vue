@@ -303,7 +303,7 @@ export default {
     color: white;
     font-size: 10pt;
     background: linear-gradient(#3894e3, #2e8ae7);
-    margin-left: -80pt;
+    // margin-left: -80pt;
   }
 }
 .xwc-contract-apis-panel {

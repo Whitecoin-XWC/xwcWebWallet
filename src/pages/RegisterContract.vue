@@ -708,7 +708,7 @@ export default {
     .xwc-address-or-select-wallet-input {
       max-width: 375px;
       .el-form-item__content {
-        margin-left: 0 !important;
+        // margin-left: 0 !important;
       }
       .address-show-label {
         float: right !important;
