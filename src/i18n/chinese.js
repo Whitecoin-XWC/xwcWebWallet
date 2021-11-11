@@ -89,6 +89,8 @@ export default {
         title: '签名',
         sign_now: '签名',
         please_input_content: '请输入要签名的内容',
+        text_signature: '文本签名',
+        transaction_signature: '交易签名',
     },
     customizeNetworkPage: {
         title: '自定义节点',

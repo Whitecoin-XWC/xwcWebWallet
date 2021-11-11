@@ -94,6 +94,8 @@ export default {
         title: '서명',
         sign_now: '서명해 주세요',
         please_input_content: '서명 할 내용을 입력하세요.',
+        text_signature: '텍스트 서명',
+        transaction_signature: '거래 서명',
     },
     customizeNetworkPage: {
         title: '커스터마이즈 노드 ',

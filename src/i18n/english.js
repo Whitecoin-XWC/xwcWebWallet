@@ -96,6 +96,8 @@ export default {
     title: 'Sign',
     sign_now: 'Sign',
     please_input_content: 'Enter content to sign',
+    text_signature: 'Text Signature',
+    transaction_signature: 'Transaction Signature',
   },
   customizeNetworkPage: {
     title: 'Customize Network',

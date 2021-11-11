@@ -17,8 +17,7 @@ export default {
         please_input_wallet_password: 'ウォレットのパスワードを入力してください。',
     },
     keystoreInput: {
-        please_open_wallet_keystore_file:
-            'ウォレットKeystore/wallet.jsonのファイルを開いてください',
+        please_open_wallet_keystore_file: 'ウォレットKeystore/wallet.jsonのファイルを開いてください',
         change_wallet: 'ウォレットに切り替えます',
         unlock_now: '今すぐロック解除します',
         select_wallet: 'ウォレットを選択します。',
@@ -98,6 +97,8 @@ export default {
         title: 'サイン',
         sign_now: 'サイン',
         please_input_content: '署名するものを入力してください',
+        text_signature: 'テキスト署名',
+        transaction_signature: 'トランザクション署名',
     },
     customizeNetworkPage: {
         title: 'カスタムノード',

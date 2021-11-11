@@ -38,7 +38,7 @@ export default {
     };
   },
   created() {
-    this.inputFilename = this.filename || this.placeholder;
+    this.inputFilename = this.filename;
   },
   methods: {
     toSelectFile() {
